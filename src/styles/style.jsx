@@ -1,0 +1,52 @@
+// src/styles.js
+import { StyleSheet, Dimensions } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: 20,
+  },
+  button: {
+    backgroundColor: '#1D4ED8',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  input: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',    borderRadius: 8,
+    backgroundColor: 'white',
+    marginBottom: 12,
+    fontSize: 16,
+    width: Dimensions.get("window").width * 0.8,  // Set width to 80% of screen width
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  linkText: {
+    color: '#1D4ED8',
+  },
+  chartWrapper: {
+    marginVertical: 8,
+    borderRadius: 16,
+    width: Dimensions.get("window").width * 0.9, // Chart width
+  },
+  logoutButton: {
+    backgroundColor: '#DC2626', // Red color for logout button
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+});
+
+export default styles;
