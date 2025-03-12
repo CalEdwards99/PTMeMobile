@@ -29,7 +29,7 @@ const WorkoutScreen = ({ navigation }) => {
                 <View style={styles.container}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter new workout"
+                        placeholder="Workout Name"
                         value={newWorkout}
                         onChangeText={(text) => setNewWorkout(text)}
                     />
@@ -42,7 +42,7 @@ const WorkoutScreen = ({ navigation }) => {
                     {Workouts.length > 0 ? (
                         Workouts.map((workout, index) => (
                             <Text key={index} style={[styles.textCenter, { fontSize: 20, marginTop: 30 }]}>
-                                {workout}
+                                {workout}  <Icon name="edit" size={17} color={"black"} />
                             </Text>
                         ))
                     ) : (

@@ -7,12 +7,14 @@ import { Dimensions, StyleSheet, Text, View, Animated, TextInput, TouchableOpaci
 import { LineChart, ContributionGraph } from "react-native-chart-kit";
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MatIcon from  'react-native-vector-icons/MaterialCommunityIcons'
 
 
 import styles from './src/styles/style.jsx';
 import LoginForm from './src/components/LoginForm.jsx';
 import WorkoutScreen from './src/pages/Workouts.jsx';
 import WeightScreen from './src/pages/WeightTracker.jsx';
+import TrainScreen from './src/pages/Train.jsx'
 import HomeScreen from './src/pages/Homepage.jsx';
 import SettingsScreen from './src/pages/UserSettings.jsx';
 
@@ -58,23 +60,35 @@ export default function App() {
         <>
 
           <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator 
+            screenOptions={{
+              headerRight: () => (
+                <>
+              <TouchableOpacity onPress={() => { alert("Take user to notifications screen!");}}
+                  style={{ marginRight: 17 }}>
+                  <Icon name="bell" size={17} color="#000" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { alert("Take user to notifications screen!");}}
+                  style={{ marginRight: 17 }}>
+                  <Icon name="gear" size={17} color="#000" />
+                </TouchableOpacity>
+                </>
+                ),
+              }}
+            >
               
-              {/* <Tab.Screen name="Home" component={HomeScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="home" size={size} color={color} />)}} /> */}
-              
+              <Tab.Screen name="Home" component={HomeScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="home" size={size} color={color} />)}} />
+
               <Tab.Screen name="Workouts" component={WorkoutScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="book" size={size} color={color} />)}} />
+
+              <Tab.Screen name="Train" component={TrainScreen} options={{tabBarIcon: ({color, size}) => (<MatIcon name="dumbbell" size={size} color={color} />)}} />
 
               <Tab.Screen name="Weight" component={WeightScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="balance-scale" size={size} color={color} />)}}/>
 
-              <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="gear" size={size} color={color} />)}}/>
+              <Tab.Screen name="Lifts" component={SettingsScreen} options={{tabBarIcon: ({color, size}) => (<MatIcon name="trophy" size={size} color={color} />)}}/>
 
             </Tab.Navigator>
           </NavigationContainer>
-
-          {/* Logout Button */}
-          {/* <TouchableOpacity style={styles.logoutButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Log Out</Text>
-          </TouchableOpacity> */}
 
         </>
       )}

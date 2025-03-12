@@ -38,14 +38,8 @@ const styles = StyleSheet.create({
   },
   chartWrapper: {
     marginVertical: 8,
-    borderRadius: 16,
-    width: Dimensions.get("window").width * 0.9, // Chart width
-  },
-  logoutButton: {
-    backgroundColor: '#DC2626', // Red color for logout button
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
+    borderRadius: 0,
+    width: Dimensions.get("window").width, // Chart width
   },
 });
 

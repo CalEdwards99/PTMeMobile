@@ -10,7 +10,28 @@ const Workout = () => {
         <>
             <TextInput
                 style={styles.input}
-                placeholder="Enter new workout"
+                placeholder="Workout Name"
+                value={newWorkout}
+                onChangeText={(text) => setNewWorkout(text)}
+            />
+
+            <TextInput
+                style={styles.input}
+                placeholder="Exercise"
+                value={newWorkout}
+                onChangeText={(text) => setNewWorkout(text)}
+            />
+
+            <TextInput
+                style={styles.input}
+                placeholder="Reps"
+                value={newWorkout}
+                onChangeText={(text) => setNewWorkout(text)}
+            />
+
+            <TextInput
+                style={styles.input}
+                placeholder="Sets"
                 value={newWorkout}
                 onChangeText={(text) => setNewWorkout(text)}
             />
