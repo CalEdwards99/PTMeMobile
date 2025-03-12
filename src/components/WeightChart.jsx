@@ -11,9 +11,6 @@ const chartConfig = {
   decimalPlaces: 1,
   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  style: {
-    borderRadius: 8
-  },
   propsForDots: {
     r: "6",
     strokeWidth: "2",
@@ -30,7 +27,7 @@ const ChartsSection = () => {
             data: [80.4, 82.6, 84.3, 86.2, 86.5, 87.0]
           }]
         }}
-        width={Dimensions.get("window").width * 0.9} // Same width as calendar
+        width={Dimensions.get("window").width} // Same width as calendar
         height={220}
         yAxisSuffix="kg"
         yAxisInterval={1}

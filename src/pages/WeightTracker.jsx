@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Animated } from 'react-native';
 
 import styles from '../styles/style.jsx';
@@ -18,10 +18,12 @@ const WeightTracker = () => {
 
     return (
         <>
-            <Text style={[styles.textCenter, { fontSize: 20, marginTop: 30 }]}>Weight (Kilos)</Text>
-            <Animated.View style={{ opacity: fadeAnim }}>
-                <ChartsSection />
-            </Animated.View>
+            <View style={styles.container}>
+                <Text style={[styles.textCenter, { fontSize: 20, marginTop: 30 }]}>Weight (Kilos)</Text>
+                <Animated.View style={{ opacity: fadeAnim }}>
+                    <ChartsSection />
+                </Animated.View>
+            </View>
         </>
     )
 }
