@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -41,7 +41,9 @@ export default function Train() {
                     <DataTable.Cell>Barbell Benchpress</DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={OpenRowHandler}>
+                        <View style={styles.icon_button}>
                             <Icon name={chevron} size={15} color={"black"} />
+                        </View>
                         </TouchableOpacity>
                     </DataTable.Title>
                 </DataTable.Header>
@@ -98,6 +100,13 @@ export default function Train() {
                     label="1-2 of 6"
                 />
             </DataTable>
+
+            <View style={{ flex: 1 }}>
+                <ScrollView></ScrollView>
+                <TouchableOpacity style={styles.finish_button} >
+                    <Text style={styles.buttonText}><Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} /></Text>
+                </TouchableOpacity>
+            </View>
 
         </>
     )

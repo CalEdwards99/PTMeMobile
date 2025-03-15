@@ -20,6 +20,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  finish_button: {
+    backgroundColor: '#1D4ED8',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+  icon_button: {
+    paddingLeft: 7,
+    paddingRight: 0,
+    paddingTop: 4,
+    paddingBottom: 4,
+  },
   input: {
     paddingHorizontal: 16,
     paddingVertical: 12,
