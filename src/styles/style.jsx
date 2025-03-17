@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 4,
   },
+  addSet_button: {
+    backgroundColor: '#008000',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
   input: {
     paddingHorizontal: 16,
     paddingVertical: 12,

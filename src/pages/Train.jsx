@@ -6,10 +6,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from '../styles/style.jsx';
 
+import Modal from '../components/modals/Set.jsx';
+
 export default function Train() {
     const [chevron, setChevron] = useState("chevron-down")
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+
+    const [isModalVisible, setModalVisible] = useState(false);
+    
+        const toggleModal = () => {
+            setModalVisible(!isModalVisible);
+        };
 
     function OpenRowHandler() {
         {
@@ -30,7 +38,9 @@ export default function Train() {
             <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>Push Day 1</Text>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Title>Exercise</DataTable.Title>
+                    <DataTable.Title>
+                        Exercise  <Icon name="plus-square" size={15} color={"green"} />
+                    </DataTable.Title>
                     <DataTable.Title numeric>Weight (KG)</DataTable.Title>
                     <DataTable.Title numeric>Reps</DataTable.Title>
                 </DataTable.Header>
@@ -41,16 +51,18 @@ export default function Train() {
                     <DataTable.Cell>Barbell Benchpress</DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={OpenRowHandler}>
-                        <View style={styles.icon_button}>
-                            <Icon name={chevron} size={15} color={"black"} />
-                        </View>
+                            <View style={styles.icon_button}>
+                                <Icon name={chevron} size={15} color={"black"} />
+                            </View>
                         </TouchableOpacity>
                     </DataTable.Title>
                 </DataTable.Header>
 
                 <Collapsible collapsed={collapsed} duration={475} >
                     <DataTable.Row>
+                    <TouchableOpacity onPress={toggleModal}>
                         <DataTable.Cell>Set 1</DataTable.Cell>
+                    </TouchableOpacity>
                         <DataTable.Cell numeric>100</DataTable.Cell>
                         <DataTable.Cell numeric>6</DataTable.Cell>
                     </DataTable.Row>
@@ -72,6 +84,15 @@ export default function Train() {
                         <DataTable.Cell numeric>100</DataTable.Cell>
                         <DataTable.Cell numeric>6</DataTable.Cell>
                     </DataTable.Row>
+
+                    <View>
+                        <TouchableOpacity style={styles.addSet_button} onPress={toggleModal} >
+                            <Text style={styles.buttonText}>
+                                Add Set  <Icon name="plus-square" size={15} />
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </Collapsible>
             </DataTable>
 
@@ -107,7 +128,10 @@ export default function Train() {
                     <Text style={styles.buttonText}><Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} /></Text>
                 </TouchableOpacity>
             </View>
-
+            
+            <Modal isModalVisible={isModalVisible}
+                toggleModal={toggleModal} />
+                        {/* <SetModal modalVisible={modalVisible}/> */}
         </>
     )
 };
