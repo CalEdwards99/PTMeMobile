@@ -13,11 +13,36 @@ export default function Train() {
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
+    const [weight, setWeight] = useState('');  // Example weight value
+    const [reps, setReps] = useState('');  // Example reps value
+    const [setName, setSetName] = useState('');  // Example Set Name (Optional)
+
     const [isModalVisible, setModalVisible] = useState(false);
-    
-        const toggleModal = () => {
-            setModalVisible(!isModalVisible);
-        };
+
+    const editSetRow = () => {
+        setWeight('100');
+        setReps('8');
+        setSetName('Set 1');
+        setModalVisible(true);
+    }
+
+    const addSet = () => {
+        setWeight('');
+        setReps('');
+        setSetName('');
+        setModalVisible(true);
+
+    }
+
+    const handleSave = (newWeight, newReps) => {
+        setWeight(newWeight); // Update weight
+        setReps(newReps); // Update reps
+        console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
+    };
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
     function OpenRowHandler() {
         {
@@ -60,11 +85,9 @@ export default function Train() {
 
                 <Collapsible collapsed={collapsed} duration={475} >
                     <DataTable.Row>
-                    <TouchableOpacity onPress={toggleModal}>
-                        <DataTable.Cell>Set 1</DataTable.Cell>
-                    </TouchableOpacity>
-                        <DataTable.Cell numeric>100</DataTable.Cell>
-                        <DataTable.Cell numeric>6</DataTable.Cell>
+                        <TouchableOpacity onPress={editSetRow}><DataTable.Cell>Set 1</DataTable.Cell></TouchableOpacity>
+                        <DataTable.Cell numeric>{weight}</DataTable.Cell>
+                        <DataTable.Cell numeric>{reps}</DataTable.Cell>
                     </DataTable.Row>
 
                     <DataTable.Row>
@@ -86,7 +109,7 @@ export default function Train() {
                     </DataTable.Row>
 
                     <View>
-                        <TouchableOpacity style={styles.addSet_button} onPress={toggleModal} >
+                        <TouchableOpacity style={styles.addSet_button} onPress={addSet} >
                             <Text style={styles.buttonText}>
                                 Add Set  <Icon name="plus-square" size={15} />
                             </Text>
@@ -128,10 +151,14 @@ export default function Train() {
                     <Text style={styles.buttonText}><Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} /></Text>
                 </TouchableOpacity>
             </View>
-            
+
             <Modal isModalVisible={isModalVisible}
-                toggleModal={toggleModal} />
-                        {/* <SetModal modalVisible={modalVisible}/> */}
+                toggleModal={toggleModal}
+                weight={weight}  // Pass weight as a prop
+                reps={reps}  // Pass reps as a prop
+                setName={setName}  // Pass setName as a prop 
+                onSave={handleSave}
+            />
         </>
     )
 };
