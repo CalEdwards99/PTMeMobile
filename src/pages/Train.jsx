@@ -6,18 +6,25 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from '../styles/style.jsx';
 
+import Exercise from '../components/train/Exercise.jsx';
+
 import Modal from '../components/modals/Set.jsx';
+import ExerciseModal from '../components/modals/Exercise.jsx';
 
 export default function Train() {
     const [chevron, setChevron] = useState("chevron-down")
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
+    const [exercise, SetExercise] = useState('');
     const [weight, setWeight] = useState('');  // Example weight value
     const [reps, setReps] = useState('');  // Example reps value
     const [setName, setSetName] = useState('');  // Example Set Name (Optional)
 
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isExerciseModalVisible, setExerciseModalVisible] = useState(false);
+
+    const [exerciseList, setExerciseList] = useState([]);
 
     const editSetRow = () => {
         setWeight('100');
@@ -34,14 +41,22 @@ export default function Train() {
 
     }
 
-    const handleSave = (newWeight, newReps) => {
-        setWeight(newWeight); // Update weight
-        setReps(newReps); // Update reps
-        console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
+     const handleSave = (newWeight, newReps) => {
+         setWeight(newWeight); // Update weight
+         setReps(newReps); // Update reps
+         console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
+     };
+
+    const handleAddExercise = (newExercise) => {
+        setExerciseList(prevList => [...prevList, newExercise]);
     };
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
+    };
+
+    const toggleExerciseModal = () => {
+        setExerciseModalVisible(!isExerciseModalVisible);
     };
 
     function OpenRowHandler() {
@@ -63,9 +78,7 @@ export default function Train() {
             <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>Push Day 1</Text>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Title>
-                        Exercise  <Icon name="plus-square" size={15} color={"green"} />
-                    </DataTable.Title>
+                    <TouchableOpacity onPress={toggleExerciseModal}><DataTable.Title>Exercise  <Icon name="plus-square" size={15} color={"green"} /></DataTable.Title></TouchableOpacity>
                     <DataTable.Title numeric>Weight (KG)</DataTable.Title>
                     <DataTable.Title numeric>Reps</DataTable.Title>
                 </DataTable.Header>
@@ -119,7 +132,7 @@ export default function Train() {
                 </Collapsible>
             </DataTable>
 
-            <DataTable>
+            {/* <DataTable>
                 <DataTable.Header>
                     <DataTable.Cell>Dumbell Shoulderpress</DataTable.Cell>
 
@@ -127,9 +140,13 @@ export default function Train() {
                         <Icon name="chevron-down" size={15} color={"black"} />
                     </DataTable.Title>
                 </DataTable.Header>
-            </DataTable>
+            </DataTable> */}
 
-            <DataTable>
+            {exerciseList.map((item, index) => (
+                <Exercise exerciseName={item}/>
+            ))}
+
+            {/* <DataTable>
                 <DataTable.Header>
                     <DataTable.Cell>Tricep Pushdown</DataTable.Cell>
                     <DataTable.Title numeric><Icon name="chevron-down" size={15} color={"black"} /></DataTable.Title>
@@ -143,7 +160,7 @@ export default function Train() {
                     }}
                     label="1-2 of 6"
                 />
-            </DataTable>
+            </DataTable> */}
 
             <View style={{ flex: 1 }}>
                 <ScrollView></ScrollView>
@@ -159,6 +176,13 @@ export default function Train() {
                 setName={setName}  // Pass setName as a prop 
                 onSave={handleSave}
             />
+
+            <ExerciseModal isModalVisible={isExerciseModalVisible}
+                toggleExerciseModal={toggleExerciseModal}
+                onExerciseSave={handleAddExercise}
+            />
+
+
         </>
     )
 };

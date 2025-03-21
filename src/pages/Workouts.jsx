@@ -42,7 +42,7 @@ const WorkoutScreen = ({ navigation }) => {
                     {Workouts.length > 0 ? (
                         Workouts.map((workout, index) => (
                             <Text key={index} style={[styles.textCenter, { fontSize: 20, marginTop: 30 }]}>
-                                {workout}  <Icon name="edit" size={17} color={"black"} />
+                                {workout} <Icon name="edit" size={17} color={"black"} />
                             </Text>
                         ))
                     ) : (
