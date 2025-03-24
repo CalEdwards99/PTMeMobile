@@ -13,7 +13,7 @@ const ExerciseModal = () => {
     selectedExerciseId,
     setCurrentExercise,
     isExerciseModalVisible,
-    addExercise,
+    saveExercise,
     removeExercise,
     toggleExerciseModal
   } = useTrainContext();
@@ -51,7 +51,7 @@ const ExerciseModal = () => {
 
         {/* Modal Buttons */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={addExercise} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
+          <TouchableOpacity onPress={saveExercise} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
 

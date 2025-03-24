@@ -7,7 +7,7 @@ import { useTrainContext } from '../../context/TrainContext.jsx';
 
 import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
-import Modal from '../modals/Set.jsx';
+import Modal from '../modals/SetModal.jsx';
 
 const Exercise = ({ exerciseId, exerciseName }) => {
 

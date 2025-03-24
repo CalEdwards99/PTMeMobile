@@ -62,7 +62,7 @@ export default function App() {
 
         //ToDo: TrainProvider wrap seperately for Train page
         <>
-          <TrainProvider>
+          
             <NavigationContainer>
               <Tab.Navigator
                 screenOptions={{
@@ -85,7 +85,11 @@ export default function App() {
 
                 <Tab.Screen name="Workouts" component={WorkoutScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="book" size={size} color={color} />) }} />
 
-                <Tab.Screen name="Train" component={TrainScreen} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="dumbbell" size={size} color={color} />) }} />
+                <Tab.Screen name="Train" component={() => (
+                  <TrainProvider>
+                    <TrainScreen/>
+                  </TrainProvider>
+                )} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="dumbbell" size={size} color={color} />) }} />
 
                 <Tab.Screen name="Weight" component={WeightScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="balance-scale" size={size} color={color} />) }} />
 
@@ -93,7 +97,6 @@ export default function App() {
 
               </Tab.Navigator>
             </NavigationContainer>
-          </TrainProvider>
         </>
       )}
 

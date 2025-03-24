@@ -4,7 +4,7 @@ import { View, Text, Button, TextInput } from 'react-native';
 
 import styles from '../styles/style.jsx';
 
-import Modal from '../components/modals/Set.jsx';
+import Modal from '../components/modals/SetModal.jsx';
 
 
 const Settings = ({ navigation }) => {

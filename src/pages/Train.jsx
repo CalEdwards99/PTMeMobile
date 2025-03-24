@@ -10,7 +10,7 @@ import { useTrainContext } from '../context/TrainContext.jsx';
 
 import Exercise from '../components/train/Exercise.jsx';
 
-import Modal from '../components/modals/Set.jsx';
+import Modal from '../components/modals/SetModal.jsx';
 import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 export default function Train() {
@@ -74,22 +74,6 @@ export default function Train() {
             {exerciseList.map((item, index) => (
                 <Exercise key={"ExerciseNo-" + index} exerciseId={index} exerciseName={item} />
             ))}
-
-            {/* <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell>Tricep Pushdown</DataTable.Cell>
-                    <DataTable.Title numeric><Icon name="chevron-down" size={15} color={"black"} /></DataTable.Title>
-                </DataTable.Header>
-
-                <DataTable.Pagination
-                    page={1}
-                    numberOfPages={3}
-                    onPageChange={page => {
-                        console.log(page);
-                    }}
-                    label="1-2 of 6"
-                />
-            </DataTable> */}
 
             <View style={{ flex: 1 }}>
                 <ScrollView></ScrollView>
