@@ -11,7 +11,7 @@ import { useTrainContext } from '../context/TrainContext.jsx';
 import Exercise from '../components/train/Exercise.jsx';
 
 import Modal from '../components/modals/Set.jsx';
-import ExerciseModal from '../components/modals/Exercise.jsx';
+import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 export default function Train() {
 
@@ -72,7 +72,7 @@ export default function Train() {
             </DataTable>
 
             {exerciseList.map((item, index) => (
-                <Exercise exerciseName={item} />
+                <Exercise key={"ExerciseNo-" + index} exerciseId={index} exerciseName={item} />
             ))}
 
             {/* <DataTable>
@@ -105,12 +105,6 @@ export default function Train() {
                 setName={setName}  // Pass setName as a prop 
                 onSave={handleSave}
             />
-
-            {/* <ExerciseModal isModalVisible={isExerciseModalVisible}
-                toggleExerciseModal={toggleExerciseModal}
-                exercise={exercise}
-                onExerciseSave={addExercise}
-            /> */}
 
             <ExerciseModal/>
 

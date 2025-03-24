@@ -10,9 +10,11 @@ const ExerciseModal = () => {
   // Get values and functions from context
   const {
     currentExercise,
+    selectedExerciseId,
     setCurrentExercise,
     isExerciseModalVisible,
     addExercise,
+    removeExercise,
     toggleExerciseModal
   } = useTrainContext();
 
@@ -27,7 +29,9 @@ const ExerciseModal = () => {
       useNativeDriver={true} // Native driver for smoother animations
     >
       <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-        <Text style={{ fontSize: 18, marginBottom: 10 }}>Add Exercise</Text>
+      {selectedExerciseId != null ? (<Text style={{ fontSize: 18, marginBottom: 10 }}>Edit Exercise</Text>):
+      (<Text style={{ fontSize: 18, marginBottom: 10 }}>Add Exercise</Text>)}
+        
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
           <TextInput
             style={{
@@ -50,9 +54,15 @@ const ExerciseModal = () => {
           <TouchableOpacity onPress={addExercise} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleExerciseModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
-            <Text style={{ color: 'white' }}>Cancel</Text>
-          </TouchableOpacity>
+
+          {selectedExerciseId != null && (
+            <TouchableOpacity onPress={removeExercise} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+              <Text style={{ color: 'white' }}>Delete</Text>
+            </TouchableOpacity>
+          )}
+            <TouchableOpacity onPress={toggleExerciseModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+              <Text style={{ color: 'white' }}>Cancel</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </Modal>

@@ -9,11 +9,13 @@ import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
 import Modal from '../modals/Set.jsx';
 
-const Exercise = ({ exerciseName }) => {
+const Exercise = ({ exerciseId, exerciseName }) => {
 
-    const {toggleExerciseModal} = useTrainContext();
+    const { toggleExerciseModal } = useTrainContext();
 
+    //const [exerciseId, setExerciseId] = useState(exerciseId);
     const [exercise, setExercise] = useState(exerciseName);
+
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
@@ -57,8 +59,8 @@ const Exercise = ({ exerciseName }) => {
         setListOfSets(prevList => [...prevList, newSet]);
     };
 
-     const handleEditExercise = () => {
-         toggleExerciseModal(exerciseName); // Send the current exercise name for editing
+    const handleEditExercise = () => {
+        toggleExerciseModal(exerciseName, exerciseId); // Send the current exercise name for editing
     };
 
     return (
@@ -79,8 +81,8 @@ const Exercise = ({ exerciseName }) => {
             <Collapsible collapsed={collapsed} duration={475}>
                 {listOfSets.map((item, index) => {
                     console.log(item);
-                    return <ListSet key={index} setNo={item.id} weight={item.weight} reps={item.reps} />
-})}
+                    return <ListSet key={index} setNo={item.id} weight={item.weight} reps={item.reps} />                   
+                })}
 
                 <View>
                     <TouchableOpacity style={styles.addSet_button} onPress={addSet}>
