@@ -7,10 +7,12 @@ import { Dimensions, StyleSheet, Text, View, Animated, TextInput, TouchableOpaci
 import { LineChart, ContributionGraph } from "react-native-chart-kit";
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MatIcon from  'react-native-vector-icons/MaterialCommunityIcons'
-
+import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import styles from './src/styles/style.jsx';
+
+import { TrainProvider } from './src/context/TrainContext.jsx';
+
 import LoginForm from './src/components/LoginForm.jsx';
 import WorkoutScreen from './src/pages/Workouts.jsx';
 import WeightScreen from './src/pages/WeightTracker.jsx';
@@ -57,39 +59,41 @@ export default function App() {
         </View>
       ) : (
         // Show the charts if the user is logged in
+
+        //ToDo: TrainProvider wrap seperately for Train page
         <>
+          <TrainProvider>
+            <NavigationContainer>
+              <Tab.Navigator
+                screenOptions={{
+                  headerRight: () => (
+                    <>
+                      <TouchableOpacity onPress={() => { alert("Take user to notifications screen!"); }}
+                        style={{ marginRight: 17 }}>
+                        <Icon name="bell" size={17} color="#000" />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => { alert("Take user to notifications screen!"); }}
+                        style={{ marginRight: 17 }}>
+                        <Icon name="gear" size={17} color="#000" />
+                      </TouchableOpacity>
+                    </>
+                  ),
+                }}
+              >
 
-          <NavigationContainer>
-            <Tab.Navigator 
-            screenOptions={{
-              headerRight: () => (
-                <>
-              <TouchableOpacity onPress={() => { alert("Take user to notifications screen!");}}
-                  style={{ marginRight: 17 }}>
-                  <Icon name="bell" size={17} color="#000" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { alert("Take user to notifications screen!");}}
-                  style={{ marginRight: 17 }}>
-                  <Icon name="gear" size={17} color="#000" />
-                </TouchableOpacity>
-                </>
-                ),
-              }}
-            >
-              
-              <Tab.Screen name="Home" component={HomeScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="home" size={size} color={color} />)}} />
+                <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="home" size={size} color={color} />) }} />
 
-              <Tab.Screen name="Workouts" component={WorkoutScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="book" size={size} color={color} />)}} />
+                <Tab.Screen name="Workouts" component={WorkoutScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="book" size={size} color={color} />) }} />
 
-              <Tab.Screen name="Train" component={TrainScreen} options={{tabBarIcon: ({color, size}) => (<MatIcon name="dumbbell" size={size} color={color} />)}} />
+                <Tab.Screen name="Train" component={TrainScreen} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="dumbbell" size={size} color={color} />) }} />
 
-              <Tab.Screen name="Weight" component={WeightScreen} options={{tabBarIcon: ({color, size}) => (<Icon name="balance-scale" size={size} color={color} />)}}/>
+                <Tab.Screen name="Weight" component={WeightScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="balance-scale" size={size} color={color} />) }} />
 
-              <Tab.Screen name="Lifts" component={SettingsScreen} options={{tabBarIcon: ({color, size}) => (<MatIcon name="trophy" size={size} color={color} />)}}/>
+                <Tab.Screen name="Lifts" component={SettingsScreen} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="trophy" size={size} color={color} />) }} />
 
-            </Tab.Navigator>
-          </NavigationContainer>
-
+              </Tab.Navigator>
+            </NavigationContainer>
+          </TrainProvider>
         </>
       )}
 

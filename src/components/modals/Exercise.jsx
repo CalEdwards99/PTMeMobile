@@ -1,28 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ExerciseModal = ({ isModalVisible, toggleExerciseModal, exercise = '', onExerciseSave }) => {
+import { useTrainContext } from '../../context/TrainContext.jsx';
 
-     const [currentExercise, setCurrentExercise] = useState(exercise);
-    
-      useEffect(() => {
-        setCurrentExercise(exercise);
-      },[exercise,isModalVisible] )
+const ExerciseModal = () => {
 
-    const handleSaveExercise = () => {
-        if (onExerciseSave){
-          console.log("Exercise b4: " + {currentExercise})
-            onExerciseSave(currentExercise);
-        };
-
-        toggleExerciseModal();
-    };
+  // Get values and functions from context
+  const {
+    currentExercise,
+    setCurrentExercise,
+    isExerciseModalVisible,
+    addExercise,
+    toggleExerciseModal
+  } = useTrainContext();
 
   return (
     <Modal
-      isVisible={isModalVisible}
+      isVisible={isExerciseModalVisible}
       onBackdropPress={toggleExerciseModal} // Close modal on backdrop click
       animationIn="fadeIn"
       animationOut="fadeOut"
@@ -43,16 +39,15 @@ const ExerciseModal = ({ isModalVisible, toggleExerciseModal, exercise = '', onE
               flex: 1, // This makes the input fill the available space
               marginRight: 10, // Adds space between the two inputs
             }}
-            value={currentExercise} // Bind the value to the state
+            value={currentExercise} // Bind the value to the context's currentExercise
             placeholder="Exercise"
-            onChangeText={(text) => setCurrentExercise(text)}
+            onChangeText={(text) => setCurrentExercise(text)} // Update exercise using context function
           />
-          
         </View>
-        
+
         {/* Modal Buttons */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={handleSaveExercise} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
+          <TouchableOpacity onPress={addExercise} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleExerciseModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>

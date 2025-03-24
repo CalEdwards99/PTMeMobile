@@ -3,12 +3,15 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTrainContext } from '../../context/TrainContext.jsx';
 
 import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
 import Modal from '../modals/Set.jsx';
 
 const Exercise = ({ exerciseName }) => {
+
+    const {toggleExerciseModal} = useTrainContext();
 
     const [exercise, setExercise] = useState(exerciseName);
     const [chevron, setChevron] = useState("chevron-down");
@@ -54,11 +57,15 @@ const Exercise = ({ exerciseName }) => {
         setListOfSets(prevList => [...prevList, newSet]);
     };
 
+     const handleEditExercise = () => {
+         toggleExerciseModal(exerciseName); // Send the current exercise name for editing
+    };
+
     return (
         <>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell>{exerciseName}</DataTable.Cell>
+                    <DataTable.Cell> <TouchableOpacity onPress={handleEditExercise}><Text style={styles.linkUnderlineTitle}>{exerciseName}</Text></TouchableOpacity></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={OpenRowHandler}>
                             <View style={styles.icon_button}>

@@ -6,25 +6,28 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from '../styles/style.jsx';
 
+import { useTrainContext } from '../context/TrainContext.jsx';
+
 import Exercise from '../components/train/Exercise.jsx';
 
 import Modal from '../components/modals/Set.jsx';
 import ExerciseModal from '../components/modals/Exercise.jsx';
 
 export default function Train() {
-    const [chevron, setChevron] = useState("chevron-down")
+
+    const { exerciseList, addExercise, isExerciseModalVisible, toggleExerciseModal } = useTrainContext();
+
+    const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
-    const [exercise, SetExercise] = useState('');
+    const [exercise, setExercise] = useState('');
+
     const [weight, setWeight] = useState('');  // Example weight value
     const [reps, setReps] = useState('');  // Example reps value
     const [setName, setSetName] = useState('');  // Example Set Name (Optional)
 
     const [isModalVisible, setModalVisible] = useState(false);
-    const [isExerciseModalVisible, setExerciseModalVisible] = useState(false);
-
-    const [exerciseList, setExerciseList] = useState([]);
 
     const editSetRow = () => {
         setWeight('100');
@@ -33,30 +36,14 @@ export default function Train() {
         setModalVisible(true);
     }
 
-    const addSet = () => {
-        setWeight('');
-        setReps('');
-        setSetName('');
-        setModalVisible(true);
-
-    }
-
-     const handleSave = (newWeight, newReps) => {
-         setWeight(newWeight); // Update weight
-         setReps(newReps); // Update reps
-         console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
-     };
-
-    const handleAddExercise = (newExercise) => {
-        setExerciseList(prevList => [...prevList, newExercise]);
+    const handleSave = (newWeight, newReps) => {
+        setWeight(newWeight); // Update weight
+        setReps(newReps); // Update reps
+        console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
     };
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
-    };
-
-    const toggleExerciseModal = () => {
-        setExerciseModalVisible(!isExerciseModalVisible);
     };
 
     function OpenRowHandler() {
@@ -84,66 +71,8 @@ export default function Train() {
                 </DataTable.Header>
             </DataTable>
 
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell>Barbell Benchpress</DataTable.Cell>
-                    <DataTable.Title numeric>
-                        <TouchableOpacity onPress={OpenRowHandler}>
-                            <View style={styles.icon_button}>
-                                <Icon name={chevron} size={15} color={"black"} />
-                            </View>
-                        </TouchableOpacity>
-                    </DataTable.Title>
-                </DataTable.Header>
-
-                <Collapsible collapsed={collapsed} duration={475} >
-                    <DataTable.Row>
-                        <TouchableOpacity onPress={editSetRow}><DataTable.Cell>Set 1</DataTable.Cell></TouchableOpacity>
-                        <DataTable.Cell numeric>{weight}</DataTable.Cell>
-                        <DataTable.Cell numeric>{reps}</DataTable.Cell>
-                    </DataTable.Row>
-
-                    <DataTable.Row>
-                        <DataTable.Cell>Set 2</DataTable.Cell>
-                        <DataTable.Cell numeric>35</DataTable.Cell>
-                        <DataTable.Cell numeric>8</DataTable.Cell>
-                    </DataTable.Row>
-
-                    <DataTable.Row>
-                        <DataTable.Cell>Set 3</DataTable.Cell>
-                        <DataTable.Cell numeric>100</DataTable.Cell>
-                        <DataTable.Cell numeric>6</DataTable.Cell>
-                    </DataTable.Row>
-
-                    <DataTable.Row>
-                        <DataTable.Cell>Set 4</DataTable.Cell>
-                        <DataTable.Cell numeric>100</DataTable.Cell>
-                        <DataTable.Cell numeric>6</DataTable.Cell>
-                    </DataTable.Row>
-
-                    <View>
-                        <TouchableOpacity style={styles.addSet_button} onPress={addSet} >
-                            <Text style={styles.buttonText}>
-                                Add Set  <Icon name="plus-square" size={15} />
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </Collapsible>
-            </DataTable>
-
-            {/* <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell>Dumbell Shoulderpress</DataTable.Cell>
-
-                    <DataTable.Title numeric>
-                        <Icon name="chevron-down" size={15} color={"black"} />
-                    </DataTable.Title>
-                </DataTable.Header>
-            </DataTable> */}
-
             {exerciseList.map((item, index) => (
-                <Exercise exerciseName={item}/>
+                <Exercise exerciseName={item} />
             ))}
 
             {/* <DataTable>
@@ -177,10 +106,13 @@ export default function Train() {
                 onSave={handleSave}
             />
 
-            <ExerciseModal isModalVisible={isExerciseModalVisible}
+            {/* <ExerciseModal isModalVisible={isExerciseModalVisible}
                 toggleExerciseModal={toggleExerciseModal}
-                onExerciseSave={handleAddExercise}
-            />
+                exercise={exercise}
+                onExerciseSave={addExercise}
+            /> */}
+
+            <ExerciseModal/>
 
 
         </>

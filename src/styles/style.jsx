@@ -54,6 +54,13 @@ const styles = StyleSheet.create({
   linkText: {
     color: '#1D4ED8',
   },
+  linkUnderlineTitle:{
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
+  },
+  linkUnderline:{
+    textDecorationLine: 'underline'
+  },
   chartWrapper: {
     marginVertical: 8,
     borderRadius: 0,
