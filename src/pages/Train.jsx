@@ -15,26 +15,17 @@ import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 export default function Train() {
 
-    const { exerciseList, addExercise, isExerciseModalVisible, toggleExerciseModal } = useTrainContext();
+    const { state, dispatch } = useTrainContext();
 
-    const [chevron, setChevron] = useState("chevron-down");
+    //const { exerciseList, addExercise, isExerciseModalVisible, toggleExerciseModal } = useTrainContext();
+
     const [rowOpen, setRowOpen] = useState(false);
-    const [collapsed, setCollapsed] = useState(true);
-
-    const [exercise, setExercise] = useState('');
 
     const [weight, setWeight] = useState('');  // Example weight value
     const [reps, setReps] = useState('');  // Example reps value
     const [setName, setSetName] = useState('');  // Example Set Name (Optional)
 
     const [isModalVisible, setModalVisible] = useState(false);
-
-    const editSetRow = () => {
-        setWeight('100');
-        setReps('8');
-        setSetName('Set 1');
-        setModalVisible(true);
-    }
 
     const handleSave = (newWeight, newReps) => {
         setWeight(newWeight); // Update weight
@@ -43,7 +34,8 @@ export default function Train() {
     };
 
     const toggleModal = () => {
-        setModalVisible(!isModalVisible);
+        //setModalVisible(!isModalVisible);
+        dispatch({type:"TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null}})
     };
 
     function OpenRowHandler() {
@@ -65,14 +57,14 @@ export default function Train() {
             <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>Push Day 1</Text>
             <DataTable>
                 <DataTable.Header>
-                    <TouchableOpacity onPress={toggleExerciseModal}><DataTable.Title>Exercise  <Icon name="plus-square" size={15} color={"green"} /></DataTable.Title></TouchableOpacity>
+                    <TouchableOpacity onPress={toggleModal}><DataTable.Title>Exercise  <Icon name="plus-square" size={15} color={"green"} /></DataTable.Title></TouchableOpacity>
                     <DataTable.Title numeric>Weight (KG)</DataTable.Title>
                     <DataTable.Title numeric>Reps</DataTable.Title>
                 </DataTable.Header>
             </DataTable>
 
-            {exerciseList.map((item, index) => (
-                <Exercise key={"ExerciseNo-" + index} exerciseId={index} exerciseName={item} />
+            {state.exercises.map((item) => (
+                <Exercise key={item.exerciseId} exerciseId={item.exerciseId} exerciseName={item.exerciseName}/>
             ))}
 
             <View style={{ flex: 1 }}>
@@ -83,7 +75,7 @@ export default function Train() {
             </View>
 
             <Modal isModalVisible={isModalVisible}
-                toggleModal={toggleModal}
+                //toggleModal={toggleModal}
                 weight={weight}  // Pass weight as a prop
                 reps={reps}  // Pass reps as a prop
                 setName={setName}  // Pass setName as a prop 

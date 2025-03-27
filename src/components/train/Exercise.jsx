@@ -11,14 +11,16 @@ import Modal from '../modals/SetModal.jsx';
 
 const Exercise = ({ exerciseId, exerciseName }) => {
 
-    const { toggleExerciseModal } = useTrainContext();
 
-    //const [exerciseId, setExerciseId] = useState(exerciseId);
+    const { state, dispatch } = useTrainContext();
+
+    const [Id, setExerciseId] = useState(exerciseId);
     const [exercise, setExercise] = useState(exerciseName);
 
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+
     const [weight, setWeight] = useState('');  // Example weight value
     const [reps, setReps] = useState('');  // Example reps value
     const [setName, setSetName] = useState('');  // Example Set Name (Optional)
@@ -60,7 +62,10 @@ const Exercise = ({ exerciseId, exerciseName }) => {
     };
 
     const handleEditExercise = () => {
-        toggleExerciseModal(exerciseName, exerciseId); // Send the current exercise name for editing
+
+        console.log("exerciseId" + exerciseId);
+        console.log("exerciseName " + exerciseName );
+        dispatch({type:"TOGGLE_MODAL", payload: { exerciseId: exerciseId, exerciseName: exerciseName}});
     };
 
     return (

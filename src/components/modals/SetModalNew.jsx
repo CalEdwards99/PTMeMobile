@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTrainContext } from '../../context/TrainContext';
 
 const SetModal = ({ isModalVisible, toggleModal, weight = '', reps = '', setName = '', onSave}) => {
+
+  const [state, dispatch] = useTrainContext();
 
   const [currentWeight, setCurrentWeight] = useState(weight);
   const [currentReps, setCurrentReps] = useState(reps);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,21 +7,33 @@ import { useTrainContext } from '../../context/TrainContext.jsx';
 
 const ExerciseModal = () => {
 
-  // Get values and functions from context
-  const {
-    currentExercise,
-    selectedExerciseId,
-    setCurrentExercise,
-    isExerciseModalVisible,
-    saveExercise,
-    removeExercise,
-    toggleExerciseModal
-  } = useTrainContext();
+  const { state, dispatch } = useTrainContext();
+
+  // Sync local state with global state when modal opens
+  useEffect(() => {
+    setCurrentExercise(state.currentExercise || '');
+  }, [state.isExerciseModalVisible, state.currentExercise]);
+
+  const [currentExercise, setCurrentExercise] = useState('');
+
+  function toggleModal(){
+    dispatch({type:"TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null}})
+  };
+
+  function saveExercise(){
+    dispatch(({type:"SAVE_EXERCISE", payload: {exerciseId: state.selectedExerciseId, exerciseName: currentExercise}}))
+    toggleModal();
+  }
+
+  function removeExercise(){
+    dispatch({type:"REMOVE_EXERCISE", payload: { exerciseId: state.selectedExerciseId}})
+    toggleModal();
+  }
 
   return (
     <Modal
-      isVisible={isExerciseModalVisible}
-      onBackdropPress={toggleExerciseModal} // Close modal on backdrop click
+      isVisible={state.isExerciseModalVisible}
+      onBackdropPress={toggleModal} 
       animationIn="fadeIn"
       animationOut="fadeOut"
       backdropTransitionInTiming={300}
@@ -29,7 +41,7 @@ const ExerciseModal = () => {
       useNativeDriver={true} // Native driver for smoother animations
     >
       <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-      {selectedExerciseId != null ? (<Text style={{ fontSize: 18, marginBottom: 10 }}>Edit Exercise</Text>):
+      {state.selectedExerciseId != null ? (<Text style={{ fontSize: 18, marginBottom: 10 }}>Edit Exercise</Text>):
       (<Text style={{ fontSize: 18, marginBottom: 10 }}>Add Exercise</Text>)}
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -55,12 +67,12 @@ const ExerciseModal = () => {
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
 
-          {selectedExerciseId != null && (
+          {state.selectedExerciseId != null && (
             <TouchableOpacity onPress={removeExercise} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
               <Text style={{ color: 'white' }}>Delete</Text>
             </TouchableOpacity>
           )}
-            <TouchableOpacity onPress={toggleExerciseModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+            <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
               <Text style={{ color: 'white' }}>Cancel</Text>
             </TouchableOpacity>
         </View>
