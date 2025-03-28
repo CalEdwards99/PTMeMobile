@@ -38,6 +38,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
   },
+
+  editworkout_button: {
+    backgroundColor: '#1D4ED8',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+
+  delete_button: {
+    backgroundColor: 'red',
+     padding: 10,
+     borderRadius: 5,
+     margin:10,
+  },
+
   input: {
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -53,6 +68,9 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: '#1D4ED8',
+  },
+  underlineTitle:{
+    fontWeight: 'bold'
   },
   linkUnderlineTitle:{
     fontWeight: 'bold',

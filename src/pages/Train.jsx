@@ -19,7 +19,6 @@ export default function Train() {
     const [rowOpen, setRowOpen] = useState(false);
 
     const toggleModal = () => {
-        //setModalVisible(!isModalVisible);
         dispatch({type:"TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null}})
     };
 
@@ -60,8 +59,7 @@ export default function Train() {
             </View>
 
             <ExerciseModal/>
-
-
+            
         </>
     )
 };
