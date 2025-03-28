@@ -5,6 +5,7 @@ export const initialState = {
 
     isSetModalVisible: false,
     selectedSetId: '',
+    selectedSetName:'',
     selectedSetReps: '',
     selectedSetWeight: '',
 
@@ -38,25 +39,31 @@ export const trainReducer = (state, action) => {
                 exercises: state.exercises.filter(ex => ex.exerciseId !== action.payload.exerciseId),
             }
 
-        case "ADD_SET":
-            return {
-                ...state,
-                exercises: state.exercises.map(ex =>
-                    ex.exerciseId === action.payload.exerciseId ? {
-                        ...ex,
-                        sets: [
-                            ...ex.sets,
-                            {
-                                setId: ex.sets.length + 1,
-                                weight: action.payload.weight,
-                                reps: action.payload.reps
-
+            case "SAVE_SET":
+                return {
+                    ...state,
+                    exercises: state.exercises.map(ex =>
+                        ex.exerciseId === action.payload.exerciseId
+                            ? {
+                                ...ex,
+                                sets: ex.sets.some(set => set.setId === action.payload.setId)
+                                    ? ex.sets.map(set =>
+                                        set.setId === action.payload.setId
+                                            ? { ...set, weight: action.payload.weight, reps: action.payload.reps } // Edit existing set
+                                            : set
+                                    )
+                                    : [
+                                        ...ex.sets,
+                                        {
+                                            setId: ex.sets.length + 1, // New set ID
+                                            weight: action.payload.weight,
+                                            reps: action.payload.reps
+                                        }
+                                    ]
                             }
-                        ]
-                    }
-                        : ex
-                )
-            }
+                            : ex
+                    )
+                };
 
         case "REMOVE_SET":
             return {
@@ -68,23 +75,6 @@ export const trainReducer = (state, action) => {
                             sets: ex.sets.filter(set => set.setId !== action.payload.setId)
                         }
                         : ex)
-            }
-
-        case "EDIT_SET":
-            return {
-                ...state,
-                exercises: state.exercises.map(ex =>
-                    ex.exerciseId === action.payload.exerciseId
-                        ? {
-                            ...ex,
-                            sets: ex.sets.map(set =>
-                                set.setId === action.payload.setId
-                                    ? { ...set, weight: action.payload.weight, reps: action.payload.reps }
-                                    : set
-                            )
-                        }
-                        : ex
-                )
             }
 
         case 'TOGGLE_MODAL':
@@ -101,6 +91,7 @@ export const trainReducer = (state, action) => {
                 isSetModalVisible: !state.isSetModalVisible,
                 selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
                 selectedSetId: action.payload?.setId !== undefined ? action.payload.setId : null,
+                selectedSetName: action.payload?.setNo !== undefined ? action.payload.SetNo : null,
                 selectedSetReps: action.payload?.reps || '',
                 selectedSetWeight: action.payload?.weight || '',
             };

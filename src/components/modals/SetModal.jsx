@@ -4,35 +4,33 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTrainContext } from '../../context/TrainContext';
 
-const SetModal = ({exerciseId}) => {
+const SetModal = ({ exerciseId }) => {
 
   const { state, dispatch } = useTrainContext();
 
   const [currentWeight, setCurrentWeight] = useState('');
   const [currentReps, setCurrentReps] = useState('');
 
-   // Sync local state with global state when modal opens
-    useEffect(() => {
-      setCurrentWeight(state.selectedSetWeight || '');
-      setCurrentReps(state.selectedSetReps || '');
-    }, [state.setModalVisible, state.selectedSetWeight, state.selectedSetReps]);
+  // Sync local state with global state when modal opens
+  useEffect(() => {
+    setCurrentWeight(state.selectedSetWeight || '');
+    setCurrentReps(state.selectedSetReps || '');
+  }, [state.setModalVisible, state.selectedSetWeight, state.selectedSetReps]);
 
-    function saveSet(){
-      console.log("Exercise ID in saveSet:", state.selectedExerciseId);
-      console.log("exerciseId" + exerciseId);
-      console.log("weight" + currentWeight);
-      console.log("sets" + currentReps)
-      dispatch(({type:"ADD_SET", payload: {exerciseId: state.selectedExerciseId, weight: currentWeight, reps: currentReps}}))
-      closeModal();
-    }
+  function saveSet() {
+    dispatch(({ type: "SAVE_SET", payload: { exerciseId: state.selectedExerciseId, setId: state.selectedSetId, weight: currentWeight, reps: currentReps } }))
+    closeModal();
+  }
 
-    function removeExercise(){
-      dispatch({type:"REMOVE_EXERCISE", payload: { exerciseId: state.selectedExerciseId}})
-      closeModal();
-    }
+  function removeSet() {
+    console.log("selected exercise of set to be removed: " + state.selectedExerciseId)
+    console.log("selected set to be removed: " + state.selectedSetId)
+    dispatch({ type: "REMOVE_SET", payload: { exerciseId: state.selectedExerciseId, setId: state.selectedSetId } })
+    closeModal();
+  }
 
-  function closeModal(){
-    dispatch({ type: "TOGGLESET_MODAL", payload: { setNo: null, reps:null, weight: null } });
+  function closeModal() {
+    dispatch({ type: "TOGGLESET_MODAL", payload: { setNo: null, reps: null, weight: null } });
   };
 
   return (
@@ -47,8 +45,7 @@ const SetModal = ({exerciseId}) => {
     >
       <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
         <Text style={{ fontSize: 18, marginBottom: 10 }}>
-          {/* {setName ? 'Edit ' + setName : 'Add Set'} */}
-          Add Set
+          {state.selectedSetName ? 'Edit Set ' + state.selectedSetName : 'Add Set'}
         </Text>
 
         {/* Weight Input */}
@@ -90,6 +87,13 @@ const SetModal = ({exerciseId}) => {
           <TouchableOpacity onPress={saveSet} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
+
+          {state.selectedSetId != null && (
+            <TouchableOpacity onPress={removeSet} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+              <Text style={{ color: 'white' }}>Delete</Text>
+            </TouchableOpacity>
+          )}
+
           <TouchableOpacity onPress={closeModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Cancel</Text>
           </TouchableOpacity>

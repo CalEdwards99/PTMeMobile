@@ -12,15 +12,12 @@ import SetModal from '../modals/SetModal.jsx';
 const Exercise = ({ exerciseId, exerciseName }) => {
     const { state, dispatch } = useTrainContext();
 
-    const [Id, setExerciseId] = useState(exerciseId);
-    const [exercise, setExercise] = useState(exerciseName);
+    // const [Id, setExerciseId] = useState(exerciseId);
+    // const [exercise, setExercise] = useState(exerciseName);
 
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
-
-    const [isModalVisible, setModalVisible] = useState(false);
-    const [listOfSets, setListOfSets] = useState([]);
 
     // Fixing the OpenRowHandler function
     const OpenRowHandler = () => {
@@ -63,8 +60,8 @@ const Exercise = ({ exerciseId, exerciseName }) => {
                 {state.exercises
                     .filter(ex => ex.exerciseId === exerciseId)
                     .map(ex =>
-                        ex.sets.map(set =>(
-                            <ListSet key={set.setId} setNo={set.setId} weight={set.weight} reps={set.reps} />
+                        ex.sets.map((set, index) =>(
+                            <ListSet key={set.setId} exerciseId={exerciseId} setId={set.setId} setNo={index+1} weight={set.weight} reps={set.reps} />
                         )
                         ))
                 }
