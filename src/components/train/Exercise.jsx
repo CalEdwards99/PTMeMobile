@@ -7,11 +7,9 @@ import { useTrainContext } from '../../context/TrainContext.jsx';
 
 import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
-import Modal from '../modals/SetModal.jsx';
+import SetModal from '../modals/SetModal.jsx';
 
 const Exercise = ({ exerciseId, exerciseName }) => {
-
-
     const { state, dispatch } = useTrainContext();
 
     const [Id, setExerciseId] = useState(exerciseId);
@@ -21,9 +19,6 @@ const Exercise = ({ exerciseId, exerciseName }) => {
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
-    const [weight, setWeight] = useState('');  // Example weight value
-    const [reps, setReps] = useState('');  // Example reps value
-    const [setName, setSetName] = useState('');  // Example Set Name (Optional)
     const [isModalVisible, setModalVisible] = useState(false);
     const [listOfSets, setListOfSets] = useState([]);
 
@@ -40,32 +35,12 @@ const Exercise = ({ exerciseId, exerciseName }) => {
         }
     };
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
-
     const addSet = () => {
-        setWeight('');
-        setReps('');
-        setSetName('');
-        setModalVisible(true);
-    };
-
-    const handleAddSet = (newWeight, newReps) => {
-        console.log('Updated weight:', newWeight, 'Updated reps:', newReps);
-
-        // Fixing the state update here: no need for the object {newSet}
-        const newSet = { id: String(listOfSets.length + 1), weight: newWeight, reps: newReps };
-
-        // Add the new set to the listOfSets array
-        setListOfSets(prevList => [...prevList, newSet]);
-    };
+        dispatch({ type: "TOGGLESET_MODAL", payload: { exerciseId: exerciseId, setNo: null, reps: null, weight: null } });
+    }
 
     const handleEditExercise = () => {
-
-        console.log("exerciseId" + exerciseId);
-        console.log("exerciseName " + exerciseName );
-        dispatch({type:"TOGGLE_MODAL", payload: { exerciseId: exerciseId, exerciseName: exerciseName}});
+        dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: exerciseId, exerciseName: exerciseName } });
     };
 
     return (
@@ -84,10 +59,15 @@ const Exercise = ({ exerciseId, exerciseName }) => {
             </DataTable>
 
             <Collapsible collapsed={collapsed} duration={475}>
-                {listOfSets.map((item, index) => {
-                    console.log(item);
-                    return <ListSet key={index} setNo={item.id} weight={item.weight} reps={item.reps} />                   
-                })}
+
+                {state.exercises
+                    .filter(ex => ex.exerciseId === exerciseId)
+                    .map(ex =>
+                        ex.sets.map(set =>(
+                            <ListSet key={set.setId} setNo={set.setId} weight={set.weight} reps={set.reps} />
+                        )
+                        ))
+                }
 
                 <View>
                     <TouchableOpacity style={styles.addSet_button} onPress={addSet}>
@@ -98,13 +78,8 @@ const Exercise = ({ exerciseId, exerciseName }) => {
                 </View>
             </Collapsible>
 
-            <Modal
-                isModalVisible={isModalVisible}
-                toggleModal={toggleModal}
-                weight={weight}  // Pass weight as a prop
-                reps={reps}  // Pass reps as a prop
-                setName={setName}  // Pass setName as a prop
-                onSave={handleAddSet}  // Pass the handleAddSet function as the onSave prop
+            <SetModal
+                exerciseId={exerciseId}
             />
         </>
     );

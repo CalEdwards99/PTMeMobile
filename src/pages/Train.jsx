@@ -14,10 +14,7 @@ import Modal from '../components/modals/SetModal.jsx';
 import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 export default function Train() {
-
     const { state, dispatch } = useTrainContext();
-
-    //const { exerciseList, addExercise, isExerciseModalVisible, toggleExerciseModal } = useTrainContext();
 
     const [rowOpen, setRowOpen] = useState(false);
 

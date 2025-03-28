@@ -3,17 +3,15 @@ export const initialState = {
     selectedExerciseId: null,
     isExerciseModalVisible: false,
 
+    isSetModalVisible: false,
+    selectedSetId: '',
+    selectedSetReps: '',
+    selectedSetWeight: '',
+
+
     //-New layout below-//
     sessionName: 'Push Day 1',
     exercises: [
-        {
-            exerciseId: 1,
-            exerciseName: 'Barbell BenchPress',
-            sets: [
-                { setId: 1, weight: 100, reps: 8 },
-                { setId: 2, weight: 80, reps: 6 }
-            ]
-        }
     ]
 };
 
@@ -27,11 +25,11 @@ export const trainReducer = (state, action) => {
             return {
                 ...state,
                 exercises: state.selectedExerciseId !== null ?
-                state.exercises.map((exercise) =>
-                     exercise.exerciseId === action.payload.exerciseId ? 
-                    {...exercise, exerciseName: action.payload.exerciseName} : exercise
-                )
-                : ([...state.exercises, {exerciseId: Date.now(), exerciseName: action.payload.exerciseName ,sets:[] }])
+                    state.exercises.map((exercise) =>
+                        exercise.exerciseId === action.payload.exerciseId ?
+                            { ...exercise, exerciseName: action.payload.exerciseName } : exercise
+                    )
+                    : ([...state.exercises, { exerciseId: Date.now(), exerciseName: action.payload.exerciseName, sets: [] }])
             }
 
         case "REMOVE_EXERCISE":
@@ -41,51 +39,51 @@ export const trainReducer = (state, action) => {
             }
 
         case "ADD_SET":
-        return{
-            ...state,
-            exercises: state.exercises.map(ex => 
-                ex.exerciseId === action.payload.exerciseId ? {
-                    ...ex,
-                    sets:[
-                        ...ex.sets,
-                        {
-                            setId: Date.now(),
-                            weight: action.payload.weight,
-                            reps: action.payload.reps
+            return {
+                ...state,
+                exercises: state.exercises.map(ex =>
+                    ex.exerciseId === action.payload.exerciseId ? {
+                        ...ex,
+                        sets: [
+                            ...ex.sets,
+                            {
+                                setId: ex.sets.length + 1,
+                                weight: action.payload.weight,
+                                reps: action.payload.reps
 
-                        }
-                    ]
-                }
-                : ex
-            )
-        }
+                            }
+                        ]
+                    }
+                        : ex
+                )
+            }
 
         case "REMOVE_SET":
-            return{
+            return {
                 ...state,
                 exercises: state.exercises.map(ex =>
                     ex.exerciseId === action.payload.exerciseId
-                ? {
-                    ...ex,
-                    sets: ex.sets.filter(set => set.setId !== action.payload.setId)
-                }
-            : ex)
+                        ? {
+                            ...ex,
+                            sets: ex.sets.filter(set => set.setId !== action.payload.setId)
+                        }
+                        : ex)
             }
 
         case "EDIT_SET":
-            return{
+            return {
                 ...state,
                 exercises: state.exercises.map(ex =>
                     ex.exerciseId === action.payload.exerciseId
-                    ? {
-                        ...ex,
-                        sets: ex.sets.map(set => 
-                            set.setId === action.payload.setId 
-                            ? {...set, weight: action.payload.weight, reps: action.payload.reps}
-                            : set
-                        )
-                    }
-                : ex
+                        ? {
+                            ...ex,
+                            sets: ex.sets.map(set =>
+                                set.setId === action.payload.setId
+                                    ? { ...set, weight: action.payload.weight, reps: action.payload.reps }
+                                    : set
+                            )
+                        }
+                        : ex
                 )
             }
 
@@ -95,6 +93,16 @@ export const trainReducer = (state, action) => {
                 isExerciseModalVisible: !state.isExerciseModalVisible,
                 currentExercise: action.payload?.exerciseName || '',
                 selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
+            };
+
+        case 'TOGGLESET_MODAL':
+            return {
+                ...state,
+                isSetModalVisible: !state.isSetModalVisible,
+                selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
+                selectedSetId: action.payload?.setId !== undefined ? action.payload.setId : null,
+                selectedSetReps: action.payload?.reps || '',
+                selectedSetWeight: action.payload?.weight || '',
             };
 
         default:

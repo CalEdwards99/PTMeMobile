@@ -4,30 +4,41 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTrainContext } from '../../context/TrainContext';
 
-const SetModal = ({ isModalVisible, toggleModal, weight = '', reps = '', setName = '', onSave}) => {
+const SetModal = ({exerciseId}) => {
 
   const { state, dispatch } = useTrainContext();
 
-  const [currentWeight, setCurrentWeight] = useState(weight);
-  const [currentReps, setCurrentReps] = useState(reps);
+  const [currentWeight, setCurrentWeight] = useState('');
+  const [currentReps, setCurrentReps] = useState('');
 
-  useEffect(() => {
-    setCurrentWeight(weight);
-    setCurrentReps(reps);
-  },[weight,reps,isModalVisible] )
+   // Sync local state with global state when modal opens
+    useEffect(() => {
+      setCurrentWeight(state.selectedSetWeight || '');
+      setCurrentReps(state.selectedSetReps || '');
+    }, [state.setModalVisible, state.selectedSetWeight, state.selectedSetReps]);
 
-  const handleSave = () => {
-    if (onSave){
-      onSave(currentWeight, currentReps);
-    };
+    function saveSet(){
+      console.log("Exercise ID in saveSet:", state.selectedExerciseId);
+      console.log("exerciseId" + exerciseId);
+      console.log("weight" + currentWeight);
+      console.log("sets" + currentReps)
+      dispatch(({type:"ADD_SET", payload: {exerciseId: state.selectedExerciseId, weight: currentWeight, reps: currentReps}}))
+      closeModal();
+    }
 
-    toggleModal();
-  }
+    function removeExercise(){
+      dispatch({type:"REMOVE_EXERCISE", payload: { exerciseId: state.selectedExerciseId}})
+      closeModal();
+    }
+
+  function closeModal(){
+    dispatch({ type: "TOGGLESET_MODAL", payload: { setNo: null, reps:null, weight: null } });
+  };
 
   return (
     <Modal
-      isVisible={isModalVisible}
-      onBackdropPress={toggleModal} // Close modal on backdrop click
+      isVisible={state.isSetModalVisible}
+      onBackdropPress={closeModal} // Close modal on backdrop click
       animationIn="fadeIn"
       animationOut="fadeOut"
       backdropTransitionInTiming={300}
@@ -36,7 +47,8 @@ const SetModal = ({ isModalVisible, toggleModal, weight = '', reps = '', setName
     >
       <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
         <Text style={{ fontSize: 18, marginBottom: 10 }}>
-          {setName ? 'Edit ' + setName : 'Add Set'}
+          {/* {setName ? 'Edit ' + setName : 'Add Set'} */}
+          Add Set
         </Text>
 
         {/* Weight Input */}
@@ -75,10 +87,10 @@ const SetModal = ({ isModalVisible, toggleModal, weight = '', reps = '', setName
 
         {/* Modal Buttons */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={handleSave} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
+          <TouchableOpacity onPress={saveSet} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
+          <TouchableOpacity onPress={closeModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
             <Text style={{ color: 'white' }}>Cancel</Text>
           </TouchableOpacity>
         </View>
