@@ -19,6 +19,7 @@ import WeightScreen from './src/pages/WeightTracker.jsx';
 import TrainScreen from './src/pages/Train.jsx'
 import HomeScreen from './src/pages/Homepage.jsx';
 import SettingsScreen from './src/pages/UserSettings.jsx';
+import APITestScreen from './src/pages/APITest.jsx';
 
 export default function App() {
   const [email, setEmail] = useState('');
@@ -93,7 +94,7 @@ export default function App() {
 
                 <Tab.Screen name="Weight" component={WeightScreen} options={{ tabBarIcon: ({ color, size }) => (<Icon name="balance-scale" size={size} color={color} />) }} />
 
-                <Tab.Screen name="Lifts" component={SettingsScreen} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="trophy" size={size} color={color} />) }} />
+                <Tab.Screen name="Lifts" component={APITestScreen} options={{ tabBarIcon: ({ color, size }) => (<MatIcon name="trophy" size={size} color={color} />) }} />
 
               </Tab.Navigator>
             </NavigationContainer>
