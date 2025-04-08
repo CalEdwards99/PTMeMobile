@@ -9,15 +9,17 @@ export const initialState = {
 export const userReducer = (state, action) => {
     switch (action.type) {
         case 'REGISTER_USER':
-            console.log("email = " + action.payload?.email);
-            console.log("password = " + action.payload?.password);
+            //console.log("email = " + action.payload?.email);
+            //console.log("password = " + action.payload?.password);
+            console.log("returnData = " + action.payload?.userData);
             return { ...state,
                 isSigningUp: false
              }
 
         case 'LOGIN':
-            console.log("email = " + action.payload?.email);
-            console.log("password = " + action.payload?.password);
+            //console.log("email = " + action.payload?.email);
+            //console.log("password = " + action.payload?.password);
+            //console.log("returnData = " + action.payload?.userData);
             return { ...state,
                 loggedIn: true
              }

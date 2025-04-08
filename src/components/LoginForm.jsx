@@ -10,10 +10,11 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { state, dispatch } = useUserContext();
+  const { login } = useUserContext();
 
   function handleLogin() {
-    dispatch({ type: "LOGIN", payload: { email: email, password: password } })
+    login(email,password);
+    //dispatch({ type: "LOGIN", payload: { email: email, password: password } })
   };
 
   function openSignUp() {
