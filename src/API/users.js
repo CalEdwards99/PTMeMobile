@@ -1,25 +1,31 @@
 const API_BASE = 'https://ptme-api.onrender.com/api';
 
 export const Login = async (email, password) => {
-  console.log("Email:", email);
-  console.log("Password:", password);
-  console.log("Payload:", JSON.stringify({ email, password }));
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Payload:", JSON.stringify({ email, password }));
 
-  const result = await fetch(`${API_BASE}/Auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
+    const result = await fetch(`${API_BASE}/Auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
 
-  const resJson = await result.json();
-  console.log("Status:", result.status);
-  console.log("Response body:", resJson);
+    const resJson = await result.json();
+    console.log("Status:", result.status);
+    console.log("Response body:", resJson);
 
-  if (!result.ok) {
-    throw new Error(resJson.error || resJson.message || 'Login Failed');
-  }
+    if (!result.ok) {
+        // Handles both string messages and array of validation errors from backend
+        const errorMessage = Array.isArray(resJson)
+            ? resJson.map(err => err.description).join('\n')
+            : resJson.error || resJson.message || 'Login Failed';
 
-  return resJson;
+        throw new Error(errorMessage);
+    }
+
+    return resJson;
+
 };
 
 export const Register = async (email, password) => {
@@ -29,10 +35,18 @@ export const Register = async (email, password) => {
         body: JSON.stringify({ email, password })
     });
 
+    const resJson = await result.json();
+    console.log("Status:", result.status);
+    console.log("Response body:", resJson);
+
     if (!result.ok) {
-        const error = await result.json();
-        throw new Error(error.message || 'Registraion failed')
+        // If it's an array of validation errors, format them
+        const errorMessage = Array.isArray(resJson)
+            ? resJson.map(err => err.description).join('\n')
+            : resJson.error || resJson.message || 'Registration Failed';
+
+        throw new Error(errorMessage);
     }
 
-    return result.json();
+    return resJson;
 }

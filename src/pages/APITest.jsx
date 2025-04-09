@@ -51,12 +51,12 @@ const APITest = () => {
                         <DataTable.Row key={item.id}> {/* Use the item's id as the key */}
                             <DataTable.Cell>
                                 <TouchableOpacity onPress={() => console.log("Editing", item.name)}>
-                                    <Text style={styles.linkUnderlineTitle}>{item.name}</Text>
+                                    <Text style={styles.linkUnderlineTitle}>{String(item.name)}</Text>
                                 </TouchableOpacity>
                             </DataTable.Cell>
                             <DataTable.Cell>
                                 <TouchableOpacity onPress={() => console.log("Blah", item.description)}>
-                                    <Text style={styles.linkUnderlineTitle}>{item.description}</Text>
+                                    <Text style={styles.linkUnderlineTitle}>{String(item.description)}</Text>
                                 </TouchableOpacity>
                             </DataTable.Cell>
                         </DataTable.Row>

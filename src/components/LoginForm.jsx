@@ -1,6 +1,6 @@
 // src/components/LoginForm.js
 import React, { useContext, useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, } from 'react-native';
 import { useUserContext } from '../context/UserContext.jsx';
 
 import styles from '../styles/style.jsx';
@@ -10,11 +10,11 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login } = useUserContext();
+  const { state,dispatch, login } = useUserContext();
+  const { loading, error, message } = state; //destructuring the state?
 
   function handleLogin() {
-    login(email,password);
-    //dispatch({ type: "LOGIN", payload: { email: email, password: password } })
+    login(email, password);
   };
 
   function openSignUp() {
@@ -42,21 +42,29 @@ const LoginForm = () => {
         style={styles.input}
       />
 
+      {error && <Text style={{ color: 'red' }}>{error}</Text>}
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={[styles.textCenter, styles.linkText]}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={openSignUp}>
+            <Text style={[styles.textCenter, { color: '#4B5563' }]}>
+              Don't have an account? <Text style={styles.linkText}>Sign Up</Text>
+            </Text>
+          </TouchableOpacity>
+        </>
+
+      )}
       {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-
-      {/* Forgot Password and Sign Up Links */}
-      <TouchableOpacity>
-        <Text style={[styles.textCenter, styles.linkText]}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={openSignUp}>
-        <Text style={[styles.textCenter, { color: '#4B5563' }]}>
-          Don't have an account? <Text style={styles.linkText}>Sign Up</Text>
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
