@@ -32,7 +32,7 @@ export default function App() {
 }
 
 function MainContent() {
-  const { state } = useUserContext();
+  const { state, logout } = useUserContext();
   const { loggedIn, isSigningUp } = state;
 
   const Tab = createBottomTabNavigator();
@@ -52,7 +52,8 @@ function MainContent() {
               <TouchableOpacity onPress={() => alert("Take user to notifications screen!")} style={{ marginRight: 17 }}>
                 <Icon name="bell" size={17} color="#000" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => alert("Take user to settings screen!")} style={{ marginRight: 17 }}>
+              {/* </><TouchableOpacity onPress={() => alert("Take user to settings screen!")} style={{ marginRight: 17 }}> */}
+              <TouchableOpacity onPress={() => logout()} style={{ marginRight: 17 }}>
                 <Icon name="gear" size={17} color="#000" />
               </TouchableOpacity>
             </>

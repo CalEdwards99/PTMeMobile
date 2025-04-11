@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const API_BASE = 'https://ptme-api.onrender.com/api';
 
 export const Login = async (email, password) => {
@@ -40,6 +42,7 @@ export const Register = async (email, password) => {
     console.log("Response body:", resJson);
 
     if (!result.ok) {
+        
         // If it's an array of validation errors, format them
         const errorMessage = Array.isArray(resJson)
             ? resJson.map(err => err.description).join('\n')
@@ -50,3 +53,8 @@ export const Register = async (email, password) => {
 
     return resJson;
 }
+
+ export const Logout = async () => {
+     await AsyncStorage.removeItem('token');
+     return;
+   };

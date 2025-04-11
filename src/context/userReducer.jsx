@@ -45,7 +45,7 @@ export const userReducer = (state, action) => {
                 loggedIn: false,
                 loading: false,
                 message:'',
-                error: 'Failed to login'
+                error: action.payload
             };
 
         case 'LOADING':
@@ -69,6 +69,16 @@ export const userReducer = (state, action) => {
                 error: '',
                 message: ''
             };
+
+        case 'USER_LOGOUT':
+            console.log("reducer logout")
+            return{
+                ...state,
+                loggedIn: false,
+                error:'',
+                message:'',
+                isSigningUp: false
+            }
 
         default:
             return state;
