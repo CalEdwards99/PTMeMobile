@@ -1,15 +1,36 @@
-import axios from 'axios';
+//import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = "http://172.20.10.3:5000/api/items";
+const API_BASE = 'https://ptme-api.onrender.com/api';
 
 export const getItems = async () => {
-    console.log("fetching items");
-    const response = await axios.get(API_URL);
-    console.log(response);
-    return response.data;
-};
+        try {
 
-export const createItem = async (item) => {
-    const response = await axios.post(API_URL, item);
-    return response.data;
+            const token = await AsyncStorage.getItem('token');
+
+            const result = await fetch(`${API_BASE}/items`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            const data = await result.json();
+
+            if (Array.isArray(data) && data.length > 0) {
+                console.log("API Data:", data);
+                return data;
+                //setItems(data);
+            } else {
+                console.log("No items returned from API");
+                //setItems([]);
+                return [];
+            }
+
+        } catch (error) {
+            console.error("Error fetching items:", error);
+            //setItems([]);
+            return [];
+        }
+
 };
