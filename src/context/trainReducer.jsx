@@ -2,10 +2,11 @@ export const initialState = {
     currentExercise: '',
     selectedExerciseId: null,
     isExerciseModalVisible: false,
+    finishWorkout: false,
 
     isSetModalVisible: false,
     selectedSetId: '',
-    selectedSetName:'',
+    selectedSetName: '',
     selectedSetReps: '',
     selectedSetWeight: '',
 
@@ -13,39 +14,39 @@ export const initialState = {
     //-New layout below-//
     sessionName: 'Push Day 1',
     exercises: [{
-        exerciseId:1,
-        exerciseName:'BB Benchpress',
+        exerciseId: 1,
+        exerciseName: 'BB Benchpress',
         sets: [
-            {setId:1, weight:80, reps:8},
-            {setId:2, weight:90, reps:6},
-            {setId:3, weight:100, reps:5},
-            {setId:4, weight:100, reps:4}
+            { setId: 1, weight: 80, reps: 8 },
+            { setId: 2, weight: 90, reps: 6 },
+            { setId: 3, weight: 100, reps: 5 },
+            { setId: 4, weight: 100, reps: 4 }
         ]
     },
     {
-        exerciseId:2,
-        exerciseName:'Tricep Pushdown',
+        exerciseId: 2,
+        exerciseName: 'Tricep Pushdown',
         sets: [
-            {setId:1, weight:18, reps:12},
-            {setId:2, weight:28, reps:8},
-            {setId:3, weight:28, reps:8}
+            { setId: 1, weight: 18, reps: 12 },
+            { setId: 2, weight: 28, reps: 8 },
+            { setId: 3, weight: 28, reps: 8 }
         ]
     },
     {
-        exerciseId:3,
-        exerciseName:'DB Shouldpress',
+        exerciseId: 3,
+        exerciseName: 'DB Shouldpress',
         sets: [
-            {setId:1, weight:36, reps:14},
-            {setId:2, weight:60, reps:8},
-            {setId:3, weight:64, reps:8}
+            { setId: 1, weight: 36, reps: 14 },
+            { setId: 2, weight: 60, reps: 8 },
+            { setId: 3, weight: 64, reps: 8 }
         ]
     },
     {
-        exerciseId:4,
-        exerciseName:'Cable Lat-raise',
+        exerciseId: 4,
+        exerciseName: 'Cable Lat-raise',
         sets: [
-            {setId:1, weight:11, reps:14},
-            {setId:2, weight:11, reps:14}
+            { setId: 1, weight: 11, reps: 14 },
+            { setId: 2, weight: 11, reps: 14 }
         ]
     }
 
@@ -76,31 +77,31 @@ export const trainReducer = (state, action) => {
                 exercises: state.exercises.filter(ex => ex.exerciseId !== action.payload.exerciseId),
             }
 
-            case "SAVE_SET":
-                return {
-                    ...state,
-                    exercises: state.exercises.map(ex =>
-                        ex.exerciseId === action.payload.exerciseId
-                            ? {
-                                ...ex,
-                                sets: ex.sets.some(set => set.setId === action.payload.setId)
-                                    ? ex.sets.map(set =>
-                                        set.setId === action.payload.setId
-                                            ? { ...set, weight: action.payload.weight, reps: action.payload.reps } // Edit existing set
-                                            : set
-                                    )
-                                    : [
-                                        ...ex.sets,
-                                        {
-                                            setId: ex.sets.length + 1, // New set ID
-                                            weight: action.payload.weight,
-                                            reps: action.payload.reps
-                                        }
-                                    ]
-                            }
-                            : ex
-                    )
-                };
+        case "SAVE_SET":
+            return {
+                ...state,
+                exercises: state.exercises.map(ex =>
+                    ex.exerciseId === action.payload.exerciseId
+                        ? {
+                            ...ex,
+                            sets: ex.sets.some(set => set.setId === action.payload.setId)
+                                ? ex.sets.map(set =>
+                                    set.setId === action.payload.setId
+                                        ? { ...set, weight: action.payload.weight, reps: action.payload.reps } // Edit existing set
+                                        : set
+                                )
+                                : [
+                                    ...ex.sets,
+                                    {
+                                        setId: ex.sets.length + 1, // New set ID
+                                        weight: action.payload.weight,
+                                        reps: action.payload.reps
+                                    }
+                                ]
+                        }
+                        : ex
+                )
+            };
 
         case "REMOVE_SET":
             return {
@@ -131,6 +132,12 @@ export const trainReducer = (state, action) => {
                 selectedSetName: action.payload?.setNo !== undefined ? action.payload.SetNo : null,
                 selectedSetReps: action.payload?.reps || '',
                 selectedSetWeight: action.payload?.weight || '',
+            };
+
+        case 'TOGGLE_FINISH_WORKOUT':
+            return {
+                ...state,
+                finishWorkout: !state.finishWorkout
             };
 
         default:

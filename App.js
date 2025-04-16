@@ -22,6 +22,8 @@ import TrainScreen from './src/pages/Train.jsx'
 import HomeScreen from './src/pages/Homepage.jsx';
 import SettingsScreen from './src/pages/UserSettings.jsx';
 import APITestScreen from './src/pages/APITest.jsx';
+import LiftsScreen from './src/pages/Lifts.jsx';
+import WorkoutFeed from './src/pages/WorkoutFeed.jsx';
 
 export default function App() {
   return (
@@ -62,7 +64,7 @@ function MainContent() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={WorkoutFeed}
           options={{ tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} /> }}
         />
         <Tab.Screen
@@ -80,14 +82,14 @@ function MainContent() {
           options={{ tabBarIcon: ({ color, size }) => <MatIcon name="dumbbell" size={size} color={color} /> }}
         />
         <Tab.Screen
-          name="Weight"
-          component={WeightScreen}
-          options={{ tabBarIcon: ({ color, size }) => <Icon name="balance-scale" size={size} color={color} /> }}
+          name="Lifts"
+          component={LiftsScreen}
+          options={{ tabBarIcon: ({ color, size }) => <MatIcon name="trophy" size={size} color={color} /> }}
         />
         <Tab.Screen
-          name="Lifts"
-          component={APITestScreen}
-          options={{ tabBarIcon: ({ color, size }) => <MatIcon name="trophy" size={size} color={color} /> }}
+          name="Me"
+          component={WeightScreen}
+          options={{ tabBarIcon: ({ color, size }) => <Icon name="user" size={size} color={color} /> }}
         />
       </Tab.Navigator>
     </NavigationContainer>
