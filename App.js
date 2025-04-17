@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,6 +19,7 @@ import LoginForm from './src/components/LoginForm.jsx';
 import RegisterForm from './src/components/Register.jsx';
 import WorkoutScreen from './src/pages/Workouts.jsx';
 import WeightScreen from './src/pages/WeightTracker.jsx';
+import UserScreen from './src/pages/Profile.jsx'
 import TrainScreen from './src/pages/Train.jsx'
 import HomeScreen from './src/pages/Homepage.jsx';
 import SettingsScreen from './src/pages/UserSettings.jsx';
@@ -88,7 +90,7 @@ function MainContent() {
         />
         <Tab.Screen
           name="Me"
-          component={WeightScreen}
+          component={UserScreen}
           options={{ tabBarIcon: ({ color, size }) => <Icon name="user" size={size} color={color} /> }}
         />
       </Tab.Navigator>
