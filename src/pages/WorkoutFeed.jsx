@@ -90,7 +90,7 @@ const workouts = [
         exercises: [
             { name: 'Squats', topSet: '120kg x 4' },
             { name: 'Hip-Thrusts', topSet: '130kg x 7' },
-            { name: 'Calf-Raises', topSet: '110kg x 12' },
+            { name: 'Calf-Raises', topSet: '110kg x 1' },
         ],
     },
 ];

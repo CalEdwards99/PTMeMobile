@@ -2,11 +2,13 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, Text } from 'react-native';
 import WeightChart from '../components/WeightChart.jsx';
+import Sessions from '../components/user/Sessions.jsx';
+import Profile from '../components/user/Profile.jsx'
 
 const TopTab = createMaterialTopTabNavigator();
 
 function SessionsScreen() {
-  return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Sessions</Text></View>;
+  return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Sessions/></View>;
 }
 
 function WeightScreen() {
@@ -14,7 +16,7 @@ function WeightScreen() {
 }
 
 function ProfileScreen() {
-  return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Profile</Text></View>;
+  return <View style={{ flex: 1 }}><Profile/></View>;
 }
 
 export default function TopTabsScreen() {
