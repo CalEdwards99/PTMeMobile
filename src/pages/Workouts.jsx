@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Modal } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,6 +11,9 @@ const WorkoutScreen = () => {
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+
+    const [workoutName, setWorkoutName] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
     // Fixing the OpenRowHandler function
     const OpenRowHandler = () => {
@@ -25,13 +28,31 @@ const WorkoutScreen = () => {
         }
     };
 
+    const openModal = (muscle) => {
+        setModalVisible(true);
+    };
+
     return (
-        <>
+        <ScrollView>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
+                <View>
+                    <Text style={styles.name}>Your Workouts</Text>
+                    <Text style={styles.timestamp}>Saved workouts</Text>
+                </View>
+                <Pressable
+                    onPress={() => openModal()}
+                    style={{
+                        backgroundColor: '#66c2a5',
+                        paddingVertical: 6,
+                        paddingHorizontal: 12,
+                        borderRadius: 8
+                    }}
+                >
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>New Workout</Text>
+                </Pressable>
+            </View>
             <DataTable>
                 <DataTable.Header>
-                    <TouchableOpacity><DataTable.Title><Text style={styles.underlineTitle}>Workout</Text></DataTable.Title></TouchableOpacity>
-                    <DataTable.Title numeric></DataTable.Title>
-                    <DataTable.Title numeric></DataTable.Title>
                 </DataTable.Header>
             </DataTable>
             <DataTable>
@@ -124,7 +145,31 @@ const WorkoutScreen = () => {
                     </DataTable.Title>
                 </DataTable.Header>
             </DataTable>
-        </>
+
+            {/* Modal */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>New Workout</Text>
+                        <Text style={styles.modalText}>Workout Name:</Text>
+                        <TextInput
+                            value={String(workoutName)}
+                            onChangeText={(val) => setWorkoutName(val)}
+                            style={styles.input}
+                        />
+
+                        <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
+                            <Text style={styles.closeText}>Close</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+        </ScrollView>
     );
 };
 

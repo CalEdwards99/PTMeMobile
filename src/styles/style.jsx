@@ -84,6 +84,51 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     width: Dimensions.get("window").width, // Chart width
   },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 6,
+  },
+  modalSubtitle: {
+    marginTop: 12,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalText: {
+    fontSize: 16,
+  },
+  closeButton: {
+    marginTop: 20,
+    alignSelf: 'flex-end',
+    backgroundColor: '#ccc',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  closeText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  name: {
+    fontWeight: 'bold',
+  },
+  timestamp: {
+    color: 'gray',
+    fontSize: 12,
+  },
 });
 
 export default styles;

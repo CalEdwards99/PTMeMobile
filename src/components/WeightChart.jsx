@@ -27,8 +27,8 @@ const WeightChart = () => {
     { session: "86.0 kg - 18/04/2025" },
     { session: "85.8 kg - 10/04/2025" },
     { session: "85.2 kg - 25/03/2025" },
-    { session: "86.5 - 15/02/2025" },
-    { session: "86.2 - 14/01/2025" },
+    { session: "86.5 kg - 15/02/2025" },
+    { session: "86.2 kg - 14/01/2025" },
 ];
 
   const openModal = (muscle) => {
@@ -61,11 +61,17 @@ const WeightChart = () => {
           <VictoryChart domainPadding={{ x: 20, y: 10 }}
             domain={{ y: [75, 95] }}
             padding={{ top: 30, bottom: 40, left: 50, right: 50 }}>
-            <VictoryAxis style={{ tickLabels: { fill: 'black' } }} />
+            <VictoryAxis style={
+              { tickLabels: { fill: 'black' },
+              grid: { stroke: '#ccc', strokeDasharray: '4,4' } // <-- horizontal grid lines
+            }} />
             <VictoryAxis
               dependentAxis
               tickFormat={(y) => `${y}kg`}
-              style={{ tickLabels: { fill: 'black' } }}
+              style={{
+                tickLabels: { fill: 'black' },
+                grid: { stroke: '#ccc', strokeDasharray: '4,4' } // <-- vertical grid lines
+              }}
             />
 
             {/* Weight Line with Labels */}
