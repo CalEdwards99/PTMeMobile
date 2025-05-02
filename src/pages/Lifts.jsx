@@ -14,6 +14,8 @@ const WorkoutScreen = () => {
 
     const [favourite, setFavourite] = useState("grey")
 
+    const [searchQuery, setSearchQuery] = useState('');
+
     // Fixing the OpenRowHandler function
     const OpenRowHandler = () => {
         if (rowOpen) {
@@ -112,7 +114,15 @@ const WorkoutScreen = () => {
                     <Text style={styles.name}>Exercises</Text>
                     <Text style={styles.timestamp}>Track progress of 1 rep maxes</Text>
                 </View>
+
+                <TextInput
+                placeholder="Search Exercises"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                mode="flat"
+            />
             </View>
+
             <DataTable>
                 <DataTable.Header>
                     <TouchableOpacity><DataTable.Title><Text style={styles.underlineTitle}>Exercise</Text></DataTable.Title></TouchableOpacity>
@@ -123,9 +133,9 @@ const WorkoutScreen = () => {
             </DataTable>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>BB Bench</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 8.2 Kg</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text> 111.8 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Preacher Curl</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 2.0 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text> 20 Kg</Text></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={FavouriteExercise}>
                             <View style={styles.icon_button}>
@@ -139,9 +149,9 @@ const WorkoutScreen = () => {
             </Collapsible>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Squat</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 12.1 Kg</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text> 141.2 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Zercher Squats</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 8.0 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text> 115.0 Kg</Text></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={FavouriteExercise}>
                             <View style={styles.icon_button}>
@@ -153,9 +163,9 @@ const WorkoutScreen = () => {
             </DataTable>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>DB Shoulder-Press</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 4.2 Kg</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text> 79.5 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Hack-Squat</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 5.0 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text> 155 Kg</Text></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={FavouriteExercise}>
                             <View style={styles.icon_button}>
@@ -167,9 +177,9 @@ const WorkoutScreen = () => {
             </DataTable>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Hip-Thrusts</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 10.5 Kg</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text> 140.0 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Tricep Dips</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text><Icon name="line-chart" size={15} color={"green"} /> 2.0 Kg</Text></DataTable.Cell>
+                    <DataTable.Cell numeric><Text> 2.0 Kg</Text></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={FavouriteExercise}>
                             <View style={styles.icon_button}>

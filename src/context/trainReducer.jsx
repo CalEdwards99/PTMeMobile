@@ -16,6 +16,7 @@ export const initialState = {
     exercises: [{
         exerciseId: 1,
         exerciseName: 'BB Benchpress',
+        muscle: ['Chest', 'Triceps'],
         sets: [
             { setId: 1, weight: 80, reps: 8 },
             { setId: 2, weight: 90, reps: 6 },
@@ -26,6 +27,7 @@ export const initialState = {
     {
         exerciseId: 2,
         exerciseName: 'Tricep Pushdown',
+        muscle: ['Tricep'],
         sets: [
             { setId: 1, weight: 18, reps: 12 },
             { setId: 2, weight: 28, reps: 8 },
@@ -35,6 +37,7 @@ export const initialState = {
     {
         exerciseId: 3,
         exerciseName: 'DB Shouldpress',
+        muscle:['Shoulders', 'Tricep'],
         sets: [
             { setId: 1, weight: 36, reps: 14 },
             { setId: 2, weight: 60, reps: 8 },
@@ -44,14 +47,12 @@ export const initialState = {
     {
         exerciseId: 4,
         exerciseName: 'Cable Lat-raise',
+        muscle:["Shoulders"],
         sets: [
             { setId: 1, weight: 11, reps: 14 },
             { setId: 2, weight: 11, reps: 14 }
         ]
-    }
-
-
-    ]
+    }]
 };
 
 export const trainReducer = (state, action) => {
