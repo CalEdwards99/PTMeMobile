@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, TextInput, Pressable, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,12 +9,14 @@ import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
 import SetModal from '../modals/SetModal.jsx';
 
-const WorkoutInfo = ({ WorkoutId, Name, Description }) => {
+const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
     const { state, dispatch, deleteUserWorkout } = useWorkoutContext();
 
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     // Fixing the OpenRowHandler function
     const OpenRowHandler = () => {
@@ -31,6 +33,11 @@ const WorkoutInfo = ({ WorkoutId, Name, Description }) => {
 
     async function handleDeleteWorkout(workoutId) {
         deleteUserWorkout(workoutId)
+        setModalVisible(false);
+    };
+
+    function openModal(){
+        setModalVisible(true);
     };
 
     // const addSet = () => {
@@ -69,7 +76,7 @@ const WorkoutInfo = ({ WorkoutId, Name, Description }) => {
                             Edit  <Icon name="pencil" size={15} />
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.delete_button} onPress={null}>
+                    <TouchableOpacity style={styles.delete_button} onPress={openModal}>
                         <Text style={styles.buttonText}>
                             Delete  <Icon name="trash-o" size={15} />
                         </Text>
@@ -120,7 +127,7 @@ const WorkoutInfo = ({ WorkoutId, Name, Description }) => {
                                         paddingHorizontal: 12,
                                         borderRadius: 8
                                     }}>
-                                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Delete</Text>
+                                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Save</Text>
                                     </Pressable>
                                     <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
                                         <Text style={styles.closeText}>Close</Text>

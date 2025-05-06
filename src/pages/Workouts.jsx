@@ -79,6 +79,7 @@ const WorkoutScreen = () => {
             ) : (
                 state.workoutsList.map((item) => (
                     <WorkoutInfo
+                        Key={item.Id}
                         WorkoutId={item.id}
                         Name={item.name}
                         Description={item.description}

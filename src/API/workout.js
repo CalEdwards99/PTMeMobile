@@ -63,6 +63,7 @@ export const saveWorkout = async (name, description) => {
 
 export const deleteWorkout = async (workoutId) => {
     try {
+        console.log("deleting working in js file")
         const token = await AsyncStorage.getItem('token');
 
         const result = await fetch(`${API_BASE}/DeleteWorkout?workoutId=${workoutId}`, {
@@ -74,13 +75,14 @@ export const deleteWorkout = async (workoutId) => {
 
         const json = await result.json();
 
-        if (json.success) {
-            console.log("API Data:", json.data);
-            return json.data;
-        } else {
-            console.warn("API responded with success=false or no data:", json.message);
-            return [];
+        if (!result.ok) {
+            console.warn('Delete failed:', json.message || 'Unknown error');
+            return;
         }
+
+        console.log('Workout deleted successfully:', json.message);
+
+        return json.success;
 
     } catch (error) {
         console.error("Error deleting workout:", error);

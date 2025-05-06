@@ -43,25 +43,18 @@ export const WorkoutProvider = ({ children }) => {
         };
 
         const deleteUserWorkout = async (workoutId) => {
-            //dispatch({ type: 'LOADING' });
+            dispatch({ type: 'LOADING' });
             try {
                 const response = await deleteWorkout(workoutId);
-                //console.log("workout list = " + JSON.stringify(workouts, null, 2));
 
                 if (response) {
-                    // Optionally: add just the new one to state instead of refetching all
-                    // dispatch({ type: 'ADD_WORKOUT', payload: workoutResponse });
-        
-                    // Better for now: refresh whole list
                     const workouts = await getWorkouts();
                     dispatch({type: 'GETWORKOUTS_SUCCESS', payload: workouts})
-                    //dispatch({ type: 'SAVEWORKOUT_SUCCESS' });
                 } else {
                     dispatch({ type: 'SAVEWORKOUT_FAILURE', payload: 'Save failed' });
                 }
             } catch (err) {
                 console.log(err);
-                //dispatch({ type: 'LOGIN_FAILURE', payload: err.message });
             }
         };
 
