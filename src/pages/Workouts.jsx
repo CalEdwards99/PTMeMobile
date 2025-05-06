@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
-import { Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import WorkoutInfo from '../components/Workouts/WorkoutInfo.jsx';
+import { useWorkoutContext } from '../context/WorkoutContext.jsx';
 
 import styles from '../styles/style.jsx';
 
 const WorkoutScreen = () => {
 
+    const { state, dispatch } = useWorkoutContext();
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
 
     const [workoutName, setWorkoutName] = useState('');
+    const [workoutDescription, setWorkoutDescription] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+
+    const { getUserWorkouts, saveUserWorkout } = useWorkoutContext();
+    //const { loading, error, message } = state; //destructuring the state?
+
+    async function handleSaveWorkout() {
+        saveUserWorkout(workoutName, workoutDescription);
+        setModalVisible(false);
+    };
+
+    //runs once or after reload TODO:reload.
+    useEffect(() => {
+        getUserWorkouts();
+    }, []);
 
     // Fixing the OpenRowHandler function
     const OpenRowHandler = () => {
@@ -55,96 +72,19 @@ const WorkoutScreen = () => {
                 <DataTable.Header>
                 </DataTable.Header>
             </DataTable>
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Push Day 1</Text></DataTable.Cell>
-                    <DataTable.Title numeric>
-                        <TouchableOpacity onPress={OpenRowHandler}>
-                            <View style={styles.icon_button}>
-                                <Icon name={chevron} size={15} color={"black"} />
-                            </View>
-                        </TouchableOpacity>
-                    </DataTable.Title>
-                </DataTable.Header>
-            </DataTable>
-            <Collapsible collapsed={collapsed} duration={475}>
-
-                <DataTable.Row>
-                    <TouchableOpacity onPress={null}><DataTable.Cell><Text style={styles.linkUnderline}>BB Benchpress</Text></DataTable.Cell></TouchableOpacity>
-                    <DataTable.Cell numeric></DataTable.Cell>
-                    <DataTable.Cell numeric>4 Sets</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                    <TouchableOpacity onPress={null}><DataTable.Cell><Text style={styles.linkUnderline}>Tricep Pushdown</Text></DataTable.Cell></TouchableOpacity>
-                    <DataTable.Cell numeric></DataTable.Cell>
-                    <DataTable.Cell numeric>3 Sets</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                    <TouchableOpacity onPress={null}><DataTable.Cell><Text style={styles.linkUnderline}>DB Shoulder-Press</Text></DataTable.Cell></TouchableOpacity>
-                    <DataTable.Cell numeric></DataTable.Cell>
-                    <DataTable.Cell numeric>3 Sets</DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <TouchableOpacity onPress={null}><DataTable.Cell><Text style={styles.linkUnderline}>Cable Lat-Raises</Text></DataTable.Cell></TouchableOpacity>
-                    <DataTable.Cell numeric></DataTable.Cell>
-                    <DataTable.Cell numeric>2 Sets</DataTable.Cell>
-                </DataTable.Row>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity style={styles.editworkout_button} onPress={null}>
-                        <Text style={styles.buttonText}>
-                            Edit  <Icon name="pencil" size={15} />
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.delete_button} onPress={null}>
-                        <Text style={styles.buttonText}>
-                            Delete  <Icon name="trash-o" size={15} />
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.addSet_button} onPress={null}>
-                        <Text style={styles.buttonText}>
-                            Train  <Icon name="hand-o-right" size={15} />
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </Collapsible>
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Pull Day 1</Text></DataTable.Cell>
-                    <DataTable.Title numeric>
-                        <TouchableOpacity onPress={null}>
-                            <View style={styles.icon_button}>
-                                <Icon name="chevron-down" size={15} color={"black"} />
-                            </View>
-                        </TouchableOpacity>
-                    </DataTable.Title>
-                </DataTable.Header>
-            </DataTable>
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Leg Day 1</Text></DataTable.Cell>
-                    <DataTable.Title numeric>
-                        <TouchableOpacity onPress={null}>
-                            <View style={styles.icon_button}>
-                                <Icon name="chevron-down" size={15} color={"black"} />
-                            </View>
-                        </TouchableOpacity>
-                    </DataTable.Title>
-                </DataTable.Header>
-            </DataTable>
-            <DataTable>
-                <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>Recovery Arms Session</Text></DataTable.Cell>
-                    <DataTable.Title numeric>
-                        <TouchableOpacity onPress={null}>
-                            <View style={styles.icon_button}>
-                                <Icon name="chevron-down" size={15} color={"black"} />
-                            </View>
-                        </TouchableOpacity>
-                    </DataTable.Title>
-                </DataTable.Header>
-            </DataTable>
+            {state.loading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : state.workoutsList.length === 0 ? (
+                <Text style={{justifyContent: 'center',alignItems:'center', padding:15}}>No saved workouts.</Text>
+            ) : (
+                state.workoutsList.map((item) => (
+                    <WorkoutInfo
+                        WorkoutId={item.id}
+                        Name={item.name}
+                        Description={item.description}
+                    />
+                ))
+            )}
 
             {/* Modal */}
             <Modal
@@ -161,8 +101,23 @@ const WorkoutScreen = () => {
                             value={String(workoutName)}
                             onChangeText={(val) => setWorkoutName(val)}
                             style={styles.input}
+                            placeholder='Workout Name'
                         />
-
+                        <Text style={styles.modalText}>Description:</Text>
+                        <TextInput
+                            value={String(workoutDescription)}
+                            onChangeText={(val) => setWorkoutDescription(val)}
+                            style={styles.input}
+                            placeholder='Description'
+                        />
+                        <Pressable onPress={() => handleSaveWorkout()} style={{
+                            backgroundColor: '#66c2a5',
+                            paddingVertical: 6,
+                            paddingHorizontal: 12,
+                            borderRadius: 8
+                        }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Save</Text>
+                        </Pressable>
                         <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
                             <Text style={styles.closeText}>Close</Text>
                         </Pressable>
