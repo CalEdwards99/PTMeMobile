@@ -4,6 +4,7 @@ import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useWorkoutContext } from '../../context/WorkoutContext.jsx';
+import { useNavigation } from '@react-navigation/native';
 
 import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
@@ -11,7 +12,9 @@ import SetModal from '../modals/SetModal.jsx';
 
 const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
     const { state, dispatch, updateUserWorkout, deleteUserWorkout } = useWorkoutContext();
+    const navigation = useNavigation();
 
+    const [workoutId, setWorkoutId] = useState(WorkoutId);
     const [workoutName, setWorkoutName] = useState(Name);
     const [workoutDescription, setWorkoutDescription] = useState(Description);
 
@@ -34,18 +37,23 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
         }
     };
 
-    async function handleUpdateWorkout(workoutId) {
+    async function handleUpdateWorkout() {
         updateUserWorkout(workoutId, workoutName, workoutDescription)
         setModalVisible(false);
     }
 
-    async function handleDeleteWorkout(workoutId) {
+    async function handleDeleteWorkout() {
         deleteUserWorkout(workoutId)
         setModalVisible(false);
     };
 
     function openModal() {
         setModalVisible(true);
+    };
+
+    const trainWorkout = () =>{
+        console.log("testing nav");
+        navigation.navigate('Train', { selectedWorkout: workoutId });
     };
 
     // const addSet = () => {
@@ -89,7 +97,7 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
                             Delete  <Icon name="trash-o" size={15} />
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.submit_button} onPress={null}>
+                    <TouchableOpacity style={styles.submit_button} onPress={trainWorkout}>
                         <Text style={styles.buttonText}>
                             Train  <Icon name="hand-o-right" size={15} />
                         </Text>
@@ -123,10 +131,10 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
                         />
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Pressable onPress={() => handleUpdateWorkout(WorkoutId)} style={styles.modalSaveButton}>
+                        <Pressable onPress={() => handleUpdateWorkout(workoutId)} style={styles.modalSaveButton}>
                                 <Text style={styles.modalButtonText}>Save</Text>
                             </Pressable>
-                            <Pressable onPress={() => handleDeleteWorkout(WorkoutId)} style={styles.modalDeleteButton}>
+                            <Pressable onPress={() => handleDeleteWorkout(workoutId)} style={styles.modalDeleteButton}>
                                 <Text style={styles.modalButtonText}>Delete</Text>
                             </Pressable>
                             <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>

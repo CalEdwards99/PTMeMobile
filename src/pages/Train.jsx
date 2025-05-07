@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Pressable, TextInput, Dimensions } from 'react-native'
 import { DataTable } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
@@ -16,8 +16,16 @@ import MusclesWorkedChart from '../components/train/MusclesWorkedChart.jsx'
 import Modal from '../components/modals/SetModal.jsx';
 import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
+import { useRoute } from '@react-navigation/native';
+
+import DropDownPicker from 'react-native-dropdown-picker';
+
 export default function Train() {
-    const { state, dispatch } = useTrainContext();
+    const route = useRoute();
+    const workoutId = route.params?.selectedWorkout;
+    console.log(workoutId);
+
+    const { state, dispatch, getTrainWorkout } = useTrainContext();
 
     const [rowOpen, setRowOpen] = useState(false);
 
@@ -44,6 +52,15 @@ export default function Train() {
             )
         }
     }
+
+    //runs once or after reload TODO:reload.
+        useEffect(() => {
+            console.log("using effect to get train workout: " + workoutId)
+
+            if(workoutId){
+                getTrainWorkout(workoutId);
+            }
+        }, []);
 
     return (
         <ScrollView style={{ flex: 1 }}>
