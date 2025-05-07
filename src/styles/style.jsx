@@ -46,18 +46,35 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 
+  edit_button: {
+    backgroundColor: '#3288bd',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    margin: 20,
+  },
+
   delete_button: {
-    backgroundColor: 'red',
-     padding: 10,
-     borderRadius: 5,
-     margin:10,
+    backgroundColor: '#b33030',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    margin: 20,
+  },
+
+  submit_button: {
+    backgroundColor: '#66c2a5',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    margin: 20,
   },
 
   input: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',    borderRadius: 8,
+    borderColor: '#E5E7EB', borderRadius: 8,
     backgroundColor: 'white',
     marginBottom: 12,
     fontSize: 16,
@@ -69,14 +86,14 @@ const styles = StyleSheet.create({
   linkText: {
     color: '#1D4ED8',
   },
-  underlineTitle:{
+  underlineTitle: {
     fontWeight: 'bold'
   },
-  linkUnderlineTitle:{
+  linkUnderlineTitle: {
     fontWeight: 'bold',
     textDecorationLine: 'underline'
   },
-  linkUnderline:{
+  linkUnderline: {
     textDecorationLine: 'underline'
   },
   chartWrapper: {
@@ -117,6 +134,32 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 16,
     borderRadius: 6,
+  },
+  modalSaveButton: {
+    marginTop: 20,
+    alignSelf: 'flex-end',
+    backgroundColor: '#66c2a5',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  modalDeleteButton: {
+    marginTop: 20,
+    alignSelf: 'flex-end',
+    backgroundColor: '#b33030',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  buttonText:{
+    color: "white",
+    fontWeight: 'bold',
+    fontSize: 13,
+  },
+  modalButtonText: {
+    color: "white",
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   closeText: {
     fontWeight: 'bold',

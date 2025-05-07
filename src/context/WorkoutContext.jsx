@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { workoutReducer, initialState } from './workoutReducer.jsx';
-import { getWorkouts, saveWorkout, deleteWorkout } from '../API/workout.js';
+import { getWorkouts, addWorkout, updateWorkout, deleteWorkout } from '../API/workout.js';
 
 const WorkoutContext = createContext();
 
@@ -18,10 +18,10 @@ export const WorkoutProvider = ({ children }) => {
             }
         };
 
-        const saveUserWorkout = async (name, description) => {
+        const addUserWorkout = async (name, description) => {
             dispatch({ type: 'LOADING' });
             try {
-                const workoutResponse = await saveWorkout(name, description);
+                const workoutResponse = await addWorkout(name, description);
                 
                 console.log(workoutResponse)
 
@@ -33,6 +33,25 @@ export const WorkoutProvider = ({ children }) => {
                     const workouts = await getWorkouts();
                     dispatch({type: 'GETWORKOUTS_SUCCESS', payload: workouts})
                     //dispatch({ type: 'SAVEWORKOUT_SUCCESS' });
+                } else {
+                    dispatch({ type: 'SAVEWORKOUT_FAILURE', payload: 'Save failed' });
+                }
+            } catch (err) {
+                dispatch({ type: 'SAVEWORKOUT_FAILURE', payload: err.message });
+                console.error(err);
+            }
+        };
+
+        const updateUserWorkout = async (workoutId, name, description) => {
+            dispatch({ type: 'LOADING' });
+            try {
+                const workoutResponse = await updateWorkout(workoutId, name, description);
+                
+                console.log(workoutResponse)
+
+                if (workoutResponse) {
+                    const workouts = await getWorkouts();
+                    dispatch({type: 'GETWORKOUTS_SUCCESS', payload: workouts})
                 } else {
                     dispatch({ type: 'SAVEWORKOUT_FAILURE', payload: 'Save failed' });
                 }
@@ -59,7 +78,7 @@ export const WorkoutProvider = ({ children }) => {
         };
 
     return (
-        <WorkoutContext.Provider value={{ state, dispatch, getUserWorkouts, saveUserWorkout, deleteUserWorkout }} >
+        <WorkoutContext.Provider value={{ state, dispatch, getUserWorkouts, addUserWorkout, updateUserWorkout, deleteUserWorkout }} >
             {children}
         </WorkoutContext.Provider>
     );

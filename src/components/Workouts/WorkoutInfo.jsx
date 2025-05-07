@@ -10,7 +10,10 @@ import styles from '../../styles/style.jsx';
 import SetModal from '../modals/SetModal.jsx';
 
 const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
-    const { state, dispatch, deleteUserWorkout } = useWorkoutContext();
+    const { state, dispatch, updateUserWorkout, deleteUserWorkout } = useWorkoutContext();
+
+    const [workoutName, setWorkoutName] = useState(Name);
+    const [workoutDescription, setWorkoutDescription] = useState(Description);
 
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
@@ -31,12 +34,17 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
         }
     };
 
+    async function handleUpdateWorkout(workoutId) {
+        updateUserWorkout(workoutId, workoutName, workoutDescription)
+        setModalVisible(false);
+    }
+
     async function handleDeleteWorkout(workoutId) {
         deleteUserWorkout(workoutId)
         setModalVisible(false);
     };
 
-    function openModal(){
+    function openModal() {
         setModalVisible(true);
     };
 
@@ -52,7 +60,7 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
         <>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>{Name}</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={styles.linkUnderlineTitle}>{workoutName}</Text></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={OpenRowHandler}>
                             <View style={styles.icon_button}>
@@ -71,7 +79,7 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
                 </DataTable.Row>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity style={styles.editworkout_button} onPress={null}>
+                    <TouchableOpacity style={styles.edit_button} onPress={openModal}>
                         <Text style={styles.buttonText}>
                             Edit  <Icon name="pencil" size={15} />
                         </Text>
@@ -81,7 +89,7 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
                             Delete  <Icon name="trash-o" size={15} />
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.addSet_button} onPress={null}>
+                    <TouchableOpacity style={styles.submit_button} onPress={null}>
                         <Text style={styles.buttonText}>
                             Train  <Icon name="hand-o-right" size={15} />
                         </Text>
@@ -89,52 +97,45 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
                 </View>
             </Collapsible>
 
-                        {/* Modal */}
-                        <Modal
-                            animationType="fade"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => setModalVisible(false)}
-                        >
-                            <View style={styles.modalOverlay}>
-                                <View style={styles.modalContent}>
-                                    <Text style={styles.modalTitle}>Workout</Text>
-                                    <Text style={styles.modalText}>Workout Name:</Text>
-                                    <TextInput
-                                        value={String(Name)}
-                                        onChangeText={(val) => setWorkoutName(val)}
-                                        style={styles.input}
-                                        placeholder='Workout Name'
-                                    />
-                                    <Text style={styles.modalText}>Description:</Text>
-                                    <TextInput
-                                        value={String(Description)}
-                                        onChangeText={(val) => setWorkoutDescription(val)}
-                                        style={styles.input}
-                                        placeholder='Description'
-                                    />
-                                    <Pressable onPress={() => handleDeleteWorkout(WorkoutId)} style={{
-                                        backgroundColor: '#66c2a5',
-                                        paddingVertical: 6,
-                                        paddingHorizontal: 12,
-                                        borderRadius: 8
-                                    }}>
-                                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Delete</Text>
-                                    </Pressable>
-                                    <Pressable onPress={() => handleSaveWorkout()} style={{
-                                        backgroundColor: '#66c2a5',
-                                        paddingVertical: 6,
-                                        paddingHorizontal: 12,
-                                        borderRadius: 8
-                                    }}>
-                                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Save</Text>
-                                    </Pressable>
-                                    <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
-                                        <Text style={styles.closeText}>Close</Text>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </Modal>
+            {/* Modal */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Workout</Text>
+                        <Text style={styles.modalText}>Workout Name:</Text>
+                        <TextInput
+                            value={String(workoutName)}
+                            onChangeText={(val) => setWorkoutName(val)}
+                            style={styles.input}
+                            placeholder='Workout Name'
+                        />
+                        <Text style={styles.modalText}>Description:</Text>
+                        <TextInput
+                            value={String(workoutDescription)}
+                            onChangeText={(val) => setWorkoutDescription(val)}
+                            style={styles.input}
+                            placeholder='Description'
+                        />
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Pressable onPress={() => handleUpdateWorkout(WorkoutId)} style={styles.modalSaveButton}>
+                                <Text style={styles.modalButtonText}>Save</Text>
+                            </Pressable>
+                            <Pressable onPress={() => handleDeleteWorkout(WorkoutId)} style={styles.modalDeleteButton}>
+                                <Text style={styles.modalButtonText}>Delete</Text>
+                            </Pressable>
+                            <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
+                                <Text style={styles.closeText}>Close</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
         </>
     );

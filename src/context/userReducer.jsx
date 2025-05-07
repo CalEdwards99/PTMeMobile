@@ -75,6 +75,7 @@ export const userReducer = (state, action) => {
             return{
                 ...state,
                 loggedIn: false,
+                loading:false,
                 error:'',
                 message:'',
                 isSigningUp: false

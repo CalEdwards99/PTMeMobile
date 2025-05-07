@@ -19,11 +19,11 @@ const WorkoutScreen = () => {
     const [workoutDescription, setWorkoutDescription] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
-    const { getUserWorkouts, saveUserWorkout } = useWorkoutContext();
+    const { getUserWorkouts, addUserWorkout } = useWorkoutContext();
     //const { loading, error, message } = state; //destructuring the state?
 
     async function handleSaveWorkout() {
-        saveUserWorkout(workoutName, workoutDescription);
+        addUserWorkout(workoutName, workoutDescription);
         setModalVisible(false);
     };
 

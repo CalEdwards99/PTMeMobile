@@ -31,11 +31,11 @@ export const getWorkouts = async () => {
 
 };
 
-export const saveWorkout = async (name, description) => {
+export const addWorkout = async (name, description) => {
     try {
         const token = await AsyncStorage.getItem('token');
 
-        const result = await fetch(`${API_BASE}/SaveWorkout`, {
+        const result = await fetch(`${API_BASE}/AddWorkout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,8 +47,42 @@ export const saveWorkout = async (name, description) => {
         const json = await result.json();
 
         if (json.success) {
-            console.log("API Data:", json.data);
-            return json.data;
+            console.log("API Data:", json.message);
+            return json.success;
+        } else {
+            console.warn("API responded with success=false or no data:", json.message);
+            return [];
+        }
+
+    } catch (error) {
+        console.error("Error saving workout:", error);
+        return [];
+    }
+
+};
+
+export const updateWorkout = async (Id, name, description) => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+
+        console.log("Workout updated id = " + Id);
+
+        const result = await fetch(`${API_BASE}/UpdateWorkout`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ Id, name, description }),
+        });
+
+        const json = await result.json();
+
+        //console.log("update workout result = " + result)
+
+        if (json.success) {
+            console.log("API Data:", json.message);
+            return json.success;
         } else {
             console.warn("API responded with success=false or no data:", json.message);
             return [];
@@ -80,7 +114,7 @@ export const deleteWorkout = async (workoutId) => {
             return;
         }
 
-        console.log('Workout deleted successfully:', json.message);
+        console.log(json.message);
 
         return json.success;
 
