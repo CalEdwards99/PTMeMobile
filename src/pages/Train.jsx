@@ -21,7 +21,6 @@ import { useRoute } from '@react-navigation/native';
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
-    //console.log(workoutId);
     const { state, dispatch, getTrainWorkout } = useTrainContext();
     const [rowOpen, setRowOpen] = useState(false);
     const [chartData, setChartData] = useState(state.exercises);

@@ -1,37 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform
-} from 'react-native';
+import {View,Text,TouchableOpacity,SafeAreaView,KeyboardAvoidingView,ScrollView,Platform} from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  AutocompleteDropdown,
-  AutocompleteDropdownContextProvider
-} from 'react-native-autocomplete-dropdown';
+import {AutocompleteDropdown,AutocompleteDropdownContextProvider} from 'react-native-autocomplete-dropdown';
 import { useTrainContext } from '../../context/TrainContext.jsx';
+import styles from '../../styles/style.jsx';
 
 const ExerciseModal = () => {
   const { state, dispatch } = useTrainContext();
-  const [uniqueId, setUniqueId] = useState('');
   const [currentExercise, setCurrentExercise] = useState('');
   const [currentExerciseId, setCurrentExerciseId] = useState('');
 
   useEffect(() => {
     if (state.selectedExerciseId) {
-    console.log("openning modal, searching for Id " + state.selectedExerciseId);
-    console.log("openning modal, searching for unique Id " + state.selectedUniqueId);
-
       const matched = exercises.find(ex => ex.id === state.selectedExerciseId);
       if (matched) {
-
-        console.log("editting, matched Id to exercise: " + matched.title);
-
         setCurrentExercise(matched.title);
         setCurrentExerciseId(state.selectedExerciseId);
       }
@@ -125,7 +107,6 @@ const ExerciseModal = () => {
               <SafeAreaView style={{ marginBottom: 20 }}>
 
                 <AutocompleteDropdown
-                  //ref={dropdownRef}
                   usePortal={true}
                   clearOnFocus={false}
                   closeOnBlur={true}
@@ -178,25 +159,26 @@ const ExerciseModal = () => {
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity
                   onPress={saveExercise}
-                  style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}
+                  style={styles.modalSaveButton}
                 >
-                  <Text style={{ color: 'white' }}>Save</Text>
+                  <Text style={styles.modalButtonText}>Save</Text>
                 </TouchableOpacity>
 
                 {state.selectedExerciseId != null && (
                   <TouchableOpacity
                     onPress={removeExercise}
-                    style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}
+                    style={styles.modalDeleteButton}
                   >
-                    <Text style={{ color: 'white' }}>Delete</Text>
+                    <Text style={styles.modalButtonText}>Delete</Text>
                   </TouchableOpacity>
                 )}
 
                 <TouchableOpacity
                   onPress={toggleModal}
-                  style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}
+                  //style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}
+                  style={styles.closeButton}
                 >
-                  <Text style={{ color: 'white' }}>Cancel</Text>
+                  <Text style={styles.closeText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             </View>

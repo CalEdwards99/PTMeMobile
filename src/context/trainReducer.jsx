@@ -71,20 +71,18 @@ export const trainReducer = (state, action) => {
                 ...state,
                 exercises: state.selectedExerciseId !== null ?
                     state.exercises.map((exercise) =>
-                        //exercise.exerciseId === action.payload.exerciseId ?
                         exercise.uniqueId === action.payload.uniqueId ?
                             { ...exercise, exerciseId: action.payload.exerciseId , exerciseName: action.payload.exerciseName } : exercise
                     )
                     : (
                         [...state.exercises, { uniqueId: Date.now(), exerciseId: action.payload.exerciseId, exerciseName: action.payload.exerciseName, sets: [] }]),
-            selectedExerciseId: null, // ✅ reset these
-            selectedUniqueId: null    // ✅ reset these
+            selectedExerciseId: null,
+            selectedUniqueId: null
             }
 
         case "REMOVE_EXERCISE":
             return {
                 ...state,
-                //exercises: state.exercises.filter(ex => ex.exerciseId !== action.payload.exerciseId),
                 exercises: state.exercises.filter(ex => ex.uniqueId !== action.payload.uniqueId),
             }
 
