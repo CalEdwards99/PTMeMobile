@@ -3,8 +3,9 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTrainContext } from '../../context/TrainContext';
+import styles from '../../styles/style';
 
-const SetModal = ({ exerciseId }) => {
+const SetModal = ({ uniqueId,exerciseId }) => {
 
   const { state, dispatch } = useTrainContext();
 
@@ -52,9 +53,8 @@ const SetModal = ({ exerciseId }) => {
         <Text style={{ fontSize: 16, marginBottom: 5 }}>Weight (kg):</Text>
         <TextInput
           style={{
+            backgroundColor: '#f0f0f0',
             height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
             borderRadius: 5,
             paddingHorizontal: 10,
             marginBottom: 15,
@@ -69,9 +69,8 @@ const SetModal = ({ exerciseId }) => {
         <Text style={{ fontSize: 16, marginBottom: 5 }}>Reps:</Text>
         <TextInput
           style={{
+            backgroundColor: '#f0f0f0',
             height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
             borderRadius: 5,
             paddingHorizontal: 10,
             marginBottom: 20,
@@ -84,18 +83,18 @@ const SetModal = ({ exerciseId }) => {
 
         {/* Modal Buttons */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={saveSet} style={{ backgroundColor: 'green', padding: 10, borderRadius: 5 }}>
-            <Text style={{ color: 'white' }}>Save</Text>
+          <TouchableOpacity onPress={saveSet} style={styles.modalSaveButton}>
+            <Text style={styles.modalButtonText}>Save</Text>
           </TouchableOpacity>
 
           {state.selectedSetId != null && (
-            <TouchableOpacity onPress={removeSet} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
-              <Text style={{ color: 'white' }}>Delete</Text>
+            <TouchableOpacity onPress={removeSet} style={styles.modalDeleteButton}>
+              <Text style={styles.modalButtonText}>Delete</Text>
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity onPress={closeModal} style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}>
-            <Text style={{ color: 'white' }}>Cancel</Text>
+          <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+            <Text style={styles.closeText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

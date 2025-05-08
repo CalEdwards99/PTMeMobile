@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   addSet_button: {
-    backgroundColor: '#008000',
+    backgroundColor: '#66c2a5',
     padding: 10,
     borderRadius: 5,
     margin: 10,

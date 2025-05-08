@@ -76,7 +76,7 @@ const Exercise = ({ uniqueId, exerciseId, exerciseName }) => {
             </Collapsible>
 
             <SetModal
-                exerciseId={exerciseId}
+                uniqueId={uniqueId} exerciseId={exerciseId}
             />
         </>
     );
