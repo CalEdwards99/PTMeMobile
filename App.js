@@ -28,12 +28,16 @@ import SettingsScreen from './src/pages/UserSettings.jsx';
 import APITestScreen from './src/pages/APITest.jsx';
 import LiftsScreen from './src/pages/Lifts.jsx';
 import WorkoutFeed from './src/pages/WorkoutFeed.jsx';
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 
 export default function App() {
+
   return (
-    <UserProvider>
-      <MainContent />
-    </UserProvider>
+    <AutocompleteDropdownContextProvider>
+      <UserProvider>
+        <MainContent />
+      </UserProvider>
+    </AutocompleteDropdownContextProvider>
   );
 }
 
@@ -47,60 +51,60 @@ function MainContent() {
     return isSigningUp ? <RegisterForm /> : <LoginForm />;
   }
 
-  else{
+  else {
 
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerRight: () => (
-            <>
-              <TouchableOpacity onPress={() => alert("Take user to notifications screen!")} style={{ marginRight: 17 }}>
-                <Icon name="bell" size={17} color="#000" />
-              </TouchableOpacity>
-              {/* </><TouchableOpacity onPress={() => alert("Take user to settings screen!")} style={{ marginRight: 17 }}> */}
-              <TouchableOpacity onPress={() => logout()} style={{ marginRight: 17 }}>
-                <Icon name="gear" size={17} color="#000" />
-              </TouchableOpacity>
-            </>
-          ),
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={WorkoutFeed}
-          options={{ tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} /> }}
-        />
-        <Tab.Screen
-          name="Workouts"
-          component={() => (
-            <WorkoutProvider>
-              <WorkoutScreen />
-            </WorkoutProvider>
-          )}
-          options={{ tabBarIcon: ({ color, size }) => <Icon name="book" size={size} color={color} /> }}
-        />
-        <Tab.Screen
-          name="Train"
-          component={() => (
-            <TrainProvider>
-              <TrainScreen />
-            </TrainProvider>
-          )}
-          options={{ tabBarIcon: ({ color, size }) => <MatIcon name="dumbbell" size={size} color={color} /> }}
-        />
-        <Tab.Screen
-          name="Lifts"
-          component={LiftsScreen}
-          options={{ tabBarIcon: ({ color, size }) => <MatIcon name="trophy" size={size} color={color} /> }}
-        />
-        <Tab.Screen
-          name="Me"
-          component={UserScreen}
-          options={{ tabBarIcon: ({ color, size }) => <Icon name="user" size={size} color={color} /> }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+    return (
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerRight: () => (
+              <>
+                <TouchableOpacity onPress={() => alert("Take user to notifications screen!")} style={{ marginRight: 17 }}>
+                  <Icon name="bell" size={17} color="#000" />
+                </TouchableOpacity>
+                {/* </><TouchableOpacity onPress={() => alert("Take user to settings screen!")} style={{ marginRight: 17 }}> */}
+                <TouchableOpacity onPress={() => logout()} style={{ marginRight: 17 }}>
+                  <Icon name="gear" size={17} color="#000" />
+                </TouchableOpacity>
+              </>
+            ),
+          }}
+        >
+          <Tab.Screen
+            name="Home"
+            component={WorkoutFeed}
+            options={{ tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} /> }}
+          />
+          <Tab.Screen
+            name="Workouts"
+            component={() => (
+              <WorkoutProvider>
+                <WorkoutScreen />
+              </WorkoutProvider>
+            )}
+            options={{ tabBarIcon: ({ color, size }) => <Icon name="book" size={size} color={color} /> }}
+          />
+          <Tab.Screen
+            name="Train"
+            component={() => (
+              <TrainProvider>
+                <TrainScreen />
+              </TrainProvider>
+            )}
+            options={{ tabBarIcon: ({ color, size }) => <MatIcon name="dumbbell" size={size} color={color} /> }}
+          />
+          <Tab.Screen
+            name="Lifts"
+            component={LiftsScreen}
+            options={{ tabBarIcon: ({ color, size }) => <MatIcon name="trophy" size={size} color={color} /> }}
+          />
+          <Tab.Screen
+            name="Me"
+            component={UserScreen}
+            options={{ tabBarIcon: ({ color, size }) => <Icon name="user" size={size} color={color} /> }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
   }
 }

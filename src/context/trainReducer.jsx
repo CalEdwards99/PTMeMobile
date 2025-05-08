@@ -117,6 +117,9 @@ export const trainReducer = (state, action) => {
             }
 
         case 'TOGGLE_MODAL':
+
+        console.log("exercise name = " + action.payload?.exerciseName)
+        console.log("exercise Id = " + action.payload?.exerciseId)
             return {
                 ...state,
                 isExerciseModalVisible: !state.isExerciseModalVisible,

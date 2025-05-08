@@ -18,8 +18,6 @@ import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 import { useRoute } from '@react-navigation/native';
 
-import DropDownPicker from 'react-native-dropdown-picker';
-
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
@@ -85,7 +83,7 @@ export default function Train() {
                     </View>
                     <DataTable>
                         <DataTable.Header>
-                            <TouchableOpacity onPress={toggleModal}><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
+                            <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
                             <DataTable.Title numeric>Weight (KG)</DataTable.Title>
                             <DataTable.Title numeric>Reps</DataTable.Title>
                         </DataTable.Header>

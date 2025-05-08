@@ -12,6 +12,9 @@ import SetModal from '../modals/SetModal.jsx';
 const Exercise = ({ exerciseId, exerciseName }) => {
     const { state, dispatch } = useTrainContext();
 
+    // const [Id, setExerciseId] = useState(exerciseId);
+    // const [exercise, setExercise] = useState(exerciseName);
+
     const [chevron, setChevron] = useState("chevron-down");
     const [rowOpen, setRowOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
