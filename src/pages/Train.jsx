@@ -21,16 +21,13 @@ import { useRoute } from '@react-navigation/native';
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
-    console.log(workoutId);
-
+    //console.log(workoutId);
     const { state, dispatch, getTrainWorkout } = useTrainContext();
-
     const [rowOpen, setRowOpen] = useState(false);
-
     const [chartData, setChartData] = useState(state.exercises);
 
     const toggleModal = () => {
-        dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null } })
+        dispatch({ type: "TOGGLE_MODAL", payload: {uniqueId: null, exerciseId: null, exerciseName: null } })
     };
 
     const finishWorkout = () => {
@@ -90,7 +87,7 @@ export default function Train() {
                     </DataTable>
 
                     {state.exercises.map((item) => (
-                        <Exercise key={item.exerciseId} exerciseId={item.exerciseId} exerciseName={item.exerciseName} />
+                        <Exercise key={item.uniqueId} uniqueId={item.uniqueId} exerciseId={item.exerciseId} exerciseName={item.exerciseName} />
                     ))}
 
                     <View style={{ flex: 1, padding: 16 }}>

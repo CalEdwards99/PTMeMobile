@@ -18,12 +18,28 @@ import { useTrainContext } from '../../context/TrainContext.jsx';
 
 const ExerciseModal = () => {
   const { state, dispatch } = useTrainContext();
+  const [uniqueId, setUniqueId] = useState('');
   const [currentExercise, setCurrentExercise] = useState('');
-  const [currentExerciseId, setCurrentExerciseId] = useState();
+  const [currentExerciseId, setCurrentExerciseId] = useState('');
 
   useEffect(() => {
-    setCurrentExercise(state.currentExercise || '');
-  }, [state.isExerciseModalVisible, state.currentExercise]);
+    if (state.selectedExerciseId) {
+    console.log("openning modal, searching for Id " + state.selectedExerciseId);
+    console.log("openning modal, searching for unique Id " + state.selectedUniqueId);
+
+      const matched = exercises.find(ex => ex.id === state.selectedExerciseId);
+      if (matched) {
+
+        console.log("editting, matched Id to exercise: " + matched.title);
+
+        setCurrentExercise(matched.title);
+        setCurrentExerciseId(state.selectedExerciseId);
+      }
+    } else {
+      setCurrentExercise('');
+      setCurrentExerciseId('');
+    }
+  }, [state.isExerciseModalVisible, state.selectedUniqueId]);
 
   const exercises = [
     { id: '1', title: 'Bench Press', muscleGroup: 'Chest' },
@@ -59,15 +75,16 @@ const ExerciseModal = () => {
   ];
 
   function toggleModal() {
-    dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null } });
+    dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: null, exerciseName: null, selectedUniqueId: null } });
   }
 
   function saveExercise() {
     dispatch({
       type: "SAVE_EXERCISE",
       payload: {
-        exerciseId: state.selectedExerciseId,
-        exerciseName: currentExercise
+        uniqueId: state.selectedUniqueId,
+        exerciseId: currentExerciseId,
+        exerciseName: currentExercise,
       }
     });
     toggleModal();
@@ -76,7 +93,7 @@ const ExerciseModal = () => {
   function removeExercise() {
     dispatch({
       type: "REMOVE_EXERCISE",
-      payload: { exerciseId: state.selectedExerciseId }
+      payload: { uniqueId: state.selectedUniqueId }
     });
     toggleModal();
   }
@@ -108,10 +125,12 @@ const ExerciseModal = () => {
               <SafeAreaView style={{ marginBottom: 20 }}>
 
                 <AutocompleteDropdown
+                  //ref={dropdownRef}
                   usePortal={true}
                   clearOnFocus={false}
                   closeOnBlur={true}
                   closeOnSubmit={false}
+                  initialValue={{ id: state.selectedExerciseId }}
                   dataSet={exercises.map(e => ({
                     id: e.id,
                     title: `${e.title} (${e.muscleGroup})`  // valid for search
@@ -123,7 +142,7 @@ const ExerciseModal = () => {
                     if (item) {
                       const [title] = item.title.split(' ('); // split to extract actual title
                       setCurrentExercise(title);
-                      //setSearchExercise(title);
+                      setCurrentExerciseId(item.id);
                     }
                   }}
                   renderItem={(item) => {

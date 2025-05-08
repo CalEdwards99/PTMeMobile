@@ -9,7 +9,7 @@ import ListSet from '../train/Set.jsx';
 import styles from '../../styles/style.jsx';
 import SetModal from '../modals/SetModal.jsx';
 
-const Exercise = ({ exerciseId, exerciseName }) => {
+const Exercise = ({ uniqueId, exerciseId, exerciseName }) => {
     const { state, dispatch } = useTrainContext();
 
     // const [Id, setExerciseId] = useState(exerciseId);
@@ -37,7 +37,7 @@ const Exercise = ({ exerciseId, exerciseName }) => {
     }
 
     const handleEditExercise = () => {
-        dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: exerciseId, exerciseName: exerciseName } });
+        dispatch({ type: "TOGGLE_MODAL", payload: {uniqueId: uniqueId, exerciseId: String(exerciseId), exerciseName: exerciseName } });
     };
 
     return (

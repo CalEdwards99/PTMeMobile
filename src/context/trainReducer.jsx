@@ -1,6 +1,8 @@
 export const initialState = {
     currentExercise: '',
     selectedExerciseId: null,
+    selectedUniqueId: null,
+
     isExerciseModalVisible: false,
     finishWorkout: false,
 
@@ -13,46 +15,49 @@ export const initialState = {
 
     //-New layout below-//
     sessionName: 'Push Day 1',
-    exercises: [{
-        exerciseId: 1,
-        exerciseName: 'BB Benchpress',
-        muscle: ['Chest', 'Triceps'],
-        sets: [
-            { setId: 1, weight: 80, reps: 8 },
-            { setId: 2, weight: 90, reps: 6 },
-            { setId: 3, weight: 100, reps: 5 },
-            { setId: 4, weight: 100, reps: 4 }
-        ]
-    },
-    {
-        exerciseId: 2,
-        exerciseName: 'Tricep Pushdown',
-        muscle: ['Tricep'],
-        sets: [
-            { setId: 1, weight: 18, reps: 12 },
-            { setId: 2, weight: 28, reps: 8 },
-            { setId: 3, weight: 28, reps: 8 }
-        ]
-    },
-    {
-        exerciseId: 3,
-        exerciseName: 'DB Shouldpress',
-        muscle:['Shoulders', 'Tricep'],
-        sets: [
-            { setId: 1, weight: 36, reps: 14 },
-            { setId: 2, weight: 60, reps: 8 },
-            { setId: 3, weight: 64, reps: 8 }
-        ]
-    },
-    {
-        exerciseId: 4,
-        exerciseName: 'Cable Lat-raise',
-        muscle:["Shoulders"],
-        sets: [
-            { setId: 1, weight: 11, reps: 14 },
-            { setId: 2, weight: 11, reps: 14 }
-        ]
-    }]
+
+    exercises:[],
+
+    // exercises: [{
+    //     exerciseId: 1,
+    //     exerciseName: 'BB Benchpress',
+    //     muscle: ['Chest', 'Triceps'],
+    //     sets: [
+    //         { setId: 1, weight: 80, reps: 8 },
+    //         { setId: 2, weight: 90, reps: 6 },
+    //         { setId: 3, weight: 100, reps: 5 },
+    //         { setId: 4, weight: 100, reps: 4 }
+    //     ]
+    // },
+    // {
+    //     exerciseId: 2,
+    //     exerciseName: 'Tricep Pushdown',
+    //     muscle: ['Tricep'],
+    //     sets: [
+    //         { setId: 1, weight: 18, reps: 12 },
+    //         { setId: 2, weight: 28, reps: 8 },
+    //         { setId: 3, weight: 28, reps: 8 }
+    //     ]
+    // },
+    // {
+    //     exerciseId: 3,
+    //     exerciseName: 'DB Shouldpress',
+    //     muscle:['Shoulders', 'Tricep'],
+    //     sets: [
+    //         { setId: 1, weight: 36, reps: 14 },
+    //         { setId: 2, weight: 60, reps: 8 },
+    //         { setId: 3, weight: 64, reps: 8 }
+    //     ]
+    // },
+    // {
+    //     exerciseId: 4,
+    //     exerciseName: 'Cable Lat-raise',
+    //     muscle:["Shoulders"],
+    //     sets: [
+    //         { setId: 1, weight: 11, reps: 14 },
+    //         { setId: 2, weight: 11, reps: 14 }
+    //     ]
+    // }]
 };
 
 export const trainReducer = (state, action) => {
@@ -66,16 +71,21 @@ export const trainReducer = (state, action) => {
                 ...state,
                 exercises: state.selectedExerciseId !== null ?
                     state.exercises.map((exercise) =>
-                        exercise.exerciseId === action.payload.exerciseId ?
-                            { ...exercise, exerciseName: action.payload.exerciseName } : exercise
+                        //exercise.exerciseId === action.payload.exerciseId ?
+                        exercise.uniqueId === action.payload.uniqueId ?
+                            { ...exercise, exerciseId: action.payload.exerciseId , exerciseName: action.payload.exerciseName } : exercise
                     )
-                    : ([...state.exercises, { exerciseId: Date.now(), exerciseName: action.payload.exerciseName, sets: [] }])
+                    : (
+                        [...state.exercises, { uniqueId: Date.now(), exerciseId: action.payload.exerciseId, exerciseName: action.payload.exerciseName, sets: [] }]),
+            selectedExerciseId: null, // ✅ reset these
+            selectedUniqueId: null    // ✅ reset these
             }
 
         case "REMOVE_EXERCISE":
             return {
                 ...state,
-                exercises: state.exercises.filter(ex => ex.exerciseId !== action.payload.exerciseId),
+                //exercises: state.exercises.filter(ex => ex.exerciseId !== action.payload.exerciseId),
+                exercises: state.exercises.filter(ex => ex.uniqueId !== action.payload.uniqueId),
             }
 
         case "SAVE_SET":
@@ -117,14 +127,14 @@ export const trainReducer = (state, action) => {
             }
 
         case 'TOGGLE_MODAL':
-
-        console.log("exercise name = " + action.payload?.exerciseName)
-        console.log("exercise Id = " + action.payload?.exerciseId)
+            console.log("uniqueId: " + action.payload?.uniqueId)
+            console.log("exerciseId: " + action.payload?.exerciseId)
             return {
                 ...state,
                 isExerciseModalVisible: !state.isExerciseModalVisible,
                 currentExercise: action.payload?.exerciseName || '',
                 selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
+                selectedUniqueId: action.payload?.uniqueId !== undefined ? action.payload.uniqueId : null,
             };
 
         case 'TOGGLESET_MODAL':
