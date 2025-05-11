@@ -21,7 +21,7 @@ import { useRoute } from '@react-navigation/native';
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
-    const { state, dispatch, getTrainWorkout } = useTrainContext();
+    const { state, dispatch, getTrainWorkout, getExerciseList } = useTrainContext();
     const [rowOpen, setRowOpen] = useState(false);
     const [chartData, setChartData] = useState(state.exercises);
 
@@ -50,10 +50,13 @@ export default function Train() {
     //runs once or after reload TODO:reload.
         useEffect(() => {
             console.log("using effect to get train workout: " + workoutId)
-
             if(workoutId){
                 getTrainWorkout(workoutId);
             }
+
+            console.log("getting exercise list");
+            getExerciseList();
+
         }, []);
 
     return (

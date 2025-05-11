@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_BASE = 'https://ptme-api.onrender.com/api/Exercise';
 
-export const getTrainWorkout = async (workoutId) => {
+export const getExercises = async (workoutId) => {
     try {
 
         const token = await AsyncStorage.getItem('token');
 
-        const result = await fetch(`${API_BASE}/GetSession`, {
+        const result = await fetch(`${API_BASE}/GetExercises`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -25,7 +25,7 @@ export const getTrainWorkout = async (workoutId) => {
 
 
     } catch (error) {
-        console.error("Error getting workouts:", error);
+        console.error("Error getting exercises:", error);
         return [];
     }
 

@@ -12,6 +12,8 @@ export const initialState = {
     selectedSetReps: '',
     selectedSetWeight: '',
 
+    listAllExercises:[],
+
 
     //-New layout below-//
     sessionName: 'Push Day 1',
@@ -64,6 +66,18 @@ export const trainReducer = (state, action) => {
     switch (action.type) {
         case 'SET_CURRENT_EXERCISE':
             return { ...state, currentExercise: action.payload };
+
+        case 'GETEXERCISES_SUCCESS':
+            console.log("got all exercises");
+            console.log("payload: " + action.payload);
+
+            const updatedExercises = action.payload.map(({ id, exerciseName, muscleGroup }) => ({
+                id,
+                title: exerciseName,
+                muscleGroup
+              }));
+
+            return {...state, listAllExercises: updatedExercises}
 
         // new reducer for managing state's complex object
         case 'SAVE_EXERCISE':
