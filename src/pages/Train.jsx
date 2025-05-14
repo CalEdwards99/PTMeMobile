@@ -18,10 +18,11 @@ import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 import { useRoute } from '@react-navigation/native';
 
+
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
-    const { state, dispatch, getTrainWorkout, getExerciseList } = useTrainContext();
+    const { state, dispatch, getTrainWorkout, getExerciseList, saveWorkoutSession } = useTrainContext();
     const [rowOpen, setRowOpen] = useState(false);
     const [chartData, setChartData] = useState(state.exercises);
 
@@ -32,6 +33,22 @@ export default function Train() {
     const finishWorkout = () => {
         dispatch({ type: "TOGGLE_FINISH_WORKOUT" })
     };
+
+    const saveWorkout = () => {
+        saveWorkoutSession();
+    }
+
+    const updateWorkoutRating = (rating) => {
+        dispatch({ type: "RATE_WORKOUT", payload : rating})
+    }
+
+    const updateSessionNotes = (notes) => {
+        dispatch({ type: "SESSION_NOTES", payload : notes})
+    }
+
+    const updateSessionName = (sessionName) => {
+        dispatch({ type: "SESSION_NAMES", payload : sessionName})
+    }
 
     function OpenRowHandler() {
         {
@@ -129,7 +146,8 @@ export default function Train() {
                     </View>
                     <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>Push Day 1</Text>
                     <View style={{ padding: 16 }}>
-                        <LikertScale onSelect={(value) => console.log('Selected:', value)} />
+                        {/* <LikertScale onSelect={(value) => console.log('Selected:', value)} /> */}
+                        <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
                     </View>
 
                     <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
@@ -138,20 +156,21 @@ export default function Train() {
                             placeholder="Write any notes about your workout..."
                             multiline
                             numberOfLines={4}
+                            onChangeText={ val => updateSessionNotes(val)}
                             style={{
                                 backgroundColor: '#fff',
                                 borderColor: '#ccc',
                                 borderWidth: 1,
                                 borderRadius: 8,
                                 padding: 12,
-                                textAlignVertical: 'top',
+                                textAlignVertical: 'top',                                
                             }}
                         />
                     </View>
 
                     <View style={{ flex: 1, padding: 16 }}>
                         <Pressable
-                            onPress={() => finishWorkout()}
+                            onPress={() => saveWorkoutSession()}
                             style={{
                                 backgroundColor: '#3288bd',
                                 paddingVertical: 6,

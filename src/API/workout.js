@@ -67,13 +67,13 @@ export const updateWorkout = async (Id, name, description) => {
 
         console.log("Workout updated id = " + Id);
 
-        const result = await fetch(`${API_BASE}/UpdateWorkout`, {
+        const result = await fetch(`${API_BASE}/UpdateWorkout/${Id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ Id, name, description }),
+            body: JSON.stringify({ name, description }),
         });
 
         const json = await result.json();

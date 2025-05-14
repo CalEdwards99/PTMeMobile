@@ -1,4 +1,5 @@
 export const initialState = {
+
     currentExercise: '',
     selectedExerciseId: null,
     selectedUniqueId: null,
@@ -12,54 +13,18 @@ export const initialState = {
     selectedSetReps: '',
     selectedSetWeight: '',
 
-    listAllExercises:[],
+    workoutId: 0,
+    workoutRatingId: 0,
+    workoutSessionName: '',
+    sessionNotes: '',
 
+    listAllExercises:[],
 
     //-New layout below-//
     sessionName: 'Push Day 1',
 
     exercises:[],
 
-    // exercises: [{
-    //     exerciseId: 1,
-    //     exerciseName: 'BB Benchpress',
-    //     muscle: ['Chest', 'Triceps'],
-    //     sets: [
-    //         { setId: 1, weight: 80, reps: 8 },
-    //         { setId: 2, weight: 90, reps: 6 },
-    //         { setId: 3, weight: 100, reps: 5 },
-    //         { setId: 4, weight: 100, reps: 4 }
-    //     ]
-    // },
-    // {
-    //     exerciseId: 2,
-    //     exerciseName: 'Tricep Pushdown',
-    //     muscle: ['Tricep'],
-    //     sets: [
-    //         { setId: 1, weight: 18, reps: 12 },
-    //         { setId: 2, weight: 28, reps: 8 },
-    //         { setId: 3, weight: 28, reps: 8 }
-    //     ]
-    // },
-    // {
-    //     exerciseId: 3,
-    //     exerciseName: 'DB Shouldpress',
-    //     muscle:['Shoulders', 'Tricep'],
-    //     sets: [
-    //         { setId: 1, weight: 36, reps: 14 },
-    //         { setId: 2, weight: 60, reps: 8 },
-    //         { setId: 3, weight: 64, reps: 8 }
-    //     ]
-    // },
-    // {
-    //     exerciseId: 4,
-    //     exerciseName: 'Cable Lat-raise',
-    //     muscle:["Shoulders"],
-    //     sets: [
-    //         { setId: 1, weight: 11, reps: 14 },
-    //         { setId: 2, weight: 11, reps: 14 }
-    //     ]
-    // }]
 };
 
 export const trainReducer = (state, action) => {
@@ -165,6 +130,24 @@ export const trainReducer = (state, action) => {
                 ...state,
                 finishWorkout: !state.finishWorkout
             };
+
+        case 'RATE_WORKOUT':
+            return {
+                ...state,
+                workoutRatingId: action.payload
+            }
+
+        case 'SESSION_NOTES':
+            return {
+                ...state,
+                sessionNotes: action.payload
+            }
+
+        case 'SESSION_NAME':
+            return {
+                ...state,
+                workoutSessionName: action.payload
+            }
 
         default:
             return state;

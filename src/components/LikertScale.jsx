@@ -10,7 +10,7 @@ const LikertScale = ({ labels = ['dizzy', 'frown', 'meh', 'grin', 'grin-hearts']
 
   const handlePress = (index) => {
     setSelected(index);
-    if (onSelect) onSelect(index);
+    if (onSelect) onSelect(index + 1);
   };
 
   return (
