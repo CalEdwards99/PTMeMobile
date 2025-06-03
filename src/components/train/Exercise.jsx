@@ -33,7 +33,7 @@ const Exercise = ({ uniqueId, exerciseId, exerciseName }) => {
     };
 
     const addSet = () => {
-        dispatch({ type: "TOGGLESET_MODAL", payload: { exerciseId: exerciseId, setNo: null, reps: null, weight: null } });
+        dispatch({type: "ADD_SET", payload:{uniqueId: uniqueId, setNo: null, reps: null, weight: null}})
     }
 
     const handleEditExercise = () => {
@@ -44,7 +44,7 @@ const Exercise = ({ uniqueId, exerciseId, exerciseName }) => {
         <>
             <DataTable>
                 <DataTable.Header>
-                    <DataTable.Cell> <TouchableOpacity onPress={handleEditExercise}><Text style={styles.linkUnderlineTitle}>{exerciseName}</Text></TouchableOpacity></DataTable.Cell>
+                    <DataTable.Cell><TouchableOpacity onPress={handleEditExercise}><Text style={styles.linkUnderlineTitle}>{exerciseName}</Text></TouchableOpacity></DataTable.Cell>
                     <DataTable.Title numeric>
                         <TouchableOpacity onPress={OpenRowHandler}>
                             <View style={styles.icon_button}>

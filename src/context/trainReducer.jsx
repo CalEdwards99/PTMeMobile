@@ -13,7 +13,9 @@ export const initialState = {
     selectedSetReps: '',
     selectedSetWeight: '',
 
-    workoutId: 0,
+    isDeleteSetModalVisible: false,
+
+    workoutId: null,
     workoutRatingId: 0,
     workoutSessionName: '',
     sessionNotes: '',
@@ -125,6 +127,15 @@ export const trainReducer = (state, action) => {
                 selectedSetWeight: action.payload?.weight || '',
             };
 
+            case 'TOGGLEDELETESET_MODAL':
+                return {
+                    ...state,
+                    isDeleteSetModalVisible: !state.isDeleteSetModalVisible,
+                    selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
+                    selectedSetId: action.payload?.setId !== undefined ? action.payload.setId : null,
+                    selectedSetName: action.payload?.setNo !== undefined ? action.payload.setNo : null,
+                };
+
         case 'TOGGLE_FINISH_WORKOUT':
             return {
                 ...state,
@@ -148,6 +159,32 @@ export const trainReducer = (state, action) => {
                 ...state,
                 workoutSessionName: action.payload
             }
+
+        case 'ADD_SET': 
+        return {
+            ...state,
+                exercises: state.exercises.map(ex =>
+                    ex.uniqueId === action.payload.uniqueId
+                        ? {
+                            ...ex,
+                            sets: ex.sets.some(set => set.setId === action.payload.setId)
+                                ? ex.sets.map(set =>
+                                    set.setId === action.payload.setId
+                                        ? { ...set, weight: action.payload.weight, reps: action.payload.reps } // Edit existing set
+                                        : set
+                                )
+                                : [
+                                    ...ex.sets,
+                                    {
+                                        setId: ex.sets.length + 1, // New set ID
+                                        weight: null,
+                                        reps: null
+                                    }
+                                ]
+                        }
+                        : ex
+                )
+        }
 
         default:
             return state;
