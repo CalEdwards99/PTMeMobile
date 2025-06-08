@@ -22,12 +22,15 @@ import { useRoute } from '@react-navigation/native';
 export default function Train() {
     const route = useRoute();
     const workoutId = route.params?.selectedWorkout;
+    const workoutName = route.params?.workoutName;
+    const workoutDescription = route.params?.workoutName;
+
     const { state, dispatch, getTrainWorkout, getExerciseList, saveWorkoutSession } = useTrainContext();
     const [rowOpen, setRowOpen] = useState(false);
     const [chartData, setChartData] = useState(state.exercises);
 
     const toggleModal = () => {
-        dispatch({ type: "TOGGLE_MODAL", payload: {uniqueId: null, exerciseId: null, exerciseName: null } })
+        dispatch({ type: "TOGGLE_MODAL", payload: { uniqueId: null, exerciseId: null, exerciseName: null } })
     };
 
     const finishWorkout = () => {
@@ -39,15 +42,15 @@ export default function Train() {
     }
 
     const updateWorkoutRating = (rating) => {
-        dispatch({ type: "RATE_WORKOUT", payload : rating})
+        dispatch({ type: "RATE_WORKOUT", payload: rating })
     }
 
     const updateSessionNotes = (notes) => {
-        dispatch({ type: "SESSION_NOTES", payload : notes})
+        dispatch({ type: "SESSION_NOTES", payload: notes })
     }
 
     const updateSessionName = (sessionName) => {
-        dispatch({ type: "SESSION_NAMES", payload : sessionName})
+        dispatch({ type: "SESSION_NAMES", payload: sessionName })
     }
 
     function OpenRowHandler() {
@@ -65,16 +68,25 @@ export default function Train() {
     }
 
     //runs once or after reload TODO:reload.
-        useEffect(() => {
-            console.log("using effect to get train workout: " + workoutId)
-            if(workoutId){
-                getTrainWorkout(workoutId);
-            }
+    useEffect(() => {
+        console.log("using effect to get train workout: " + workoutId)
+        if (workoutId) {
 
-            console.log("getting exercise list");
-            getExerciseList();
+            getTrainWorkout(workoutId);
+        }
 
-        }, []);
+        console.log("getting exercise list");
+        getExerciseList();
+
+    }, []);
+
+    const hasCompletedSets = state.exercises?.some(exercise =>
+        exercise.sets?.some(set => set.weight != null && set.reps != null)
+    );
+
+    const sessionName = route.params?.workoutName || 'Train';
+    const sessionDescription = route.params?.workoutDescription || 'Freestyle workout';
+
 
     return (
         <ScrollView style={{ flex: 1 }}>
@@ -82,8 +94,8 @@ export default function Train() {
                 <>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
                         <View>
-                            <Text style={styles.name}>Push Day 1</Text>
-                            <Text style={styles.timestamp}>Chest focused push day</Text>
+                            <Text style={styles.name}>{sessionName}</Text>
+                            <Text style={styles.timestamp}>{sessionDescription}</Text>
                         </View>
                         <Pressable
                             onPress={() => toggleModal()}
@@ -97,34 +109,49 @@ export default function Train() {
                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Add Exercise</Text>
                         </Pressable>
                     </View>
-                    <DataTable>
-                        <DataTable.Header>
-                            <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
-                            <DataTable.Title numeric>Weight (KG)</DataTable.Title>
-                            <DataTable.Title numeric>Reps</DataTable.Title>
-                        </DataTable.Header>
-                    </DataTable>
+                    {state.exercises && state.exercises.length > 0 && (
+                        <>
+                            <DataTable>
+                                <DataTable.Header>
+                                    <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
+                                    <DataTable.Title numeric>Weight (KG)</DataTable.Title>
+                                    <DataTable.Title numeric>Reps</DataTable.Title>
+                                </DataTable.Header>
+                            </DataTable>
 
-                    {state.exercises.map((item) => (
-                        <Exercise key={item.uniqueId} uniqueId={item.uniqueId} exerciseId={item.exerciseId} exerciseName={item.exerciseName} />
-                    ))}
+                            {state.exercises.map((item) => (
+                                <Exercise
+                                    key={item.uniqueId}
+                                    uniqueId={item.uniqueId}
+                                    exerciseId={item.exerciseId}
+                                    exerciseName={item.exerciseName}
+                                />
+                            ))}
 
-                    <View style={{ flex: 1, padding: 16 }}>
-                        <Pressable
-                            onPress={() => finishWorkout()}
-                            style={{
-                                backgroundColor: '#3288bd',
-                                paddingVertical: 6,
-                                paddingHorizontal: 12,
-                                borderRadius: 8
-                            }}
-                        >
-                            <Text style={styles.buttonText}><Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} /></Text>
-                        </Pressable>
-                    </View>
+                            {hasCompletedSets && (
+
+                                <View style={{ flex: 1, padding: 16 }}>
+                                    <Pressable
+                                        onPress={() => finishWorkout()}
+                                        style={{
+                                            backgroundColor: '#3288bd',
+                                            paddingVertical: 6,
+                                            paddingHorizontal: 12,
+                                            borderRadius: 8
+                                        }}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            <Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} />
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                            )}
+                        </>
+                    )}
 
                     <ExerciseModal />
                 </>
+
             ) : (
                 <>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
@@ -144,7 +171,7 @@ export default function Train() {
                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Back</Text>
                         </Pressable>
                     </View>
-                    <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>Push Day 1</Text>
+                    <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>{sessionName}</Text>
                     <View style={{ padding: 16 }}>
                         {/* <LikertScale onSelect={(value) => console.log('Selected:', value)} /> */}
                         <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
@@ -156,14 +183,14 @@ export default function Train() {
                             placeholder="Write any notes about your workout..."
                             multiline
                             numberOfLines={4}
-                            onChangeText={ val => updateSessionNotes(val)}
+                            onChangeText={val => updateSessionNotes(val)}
                             style={{
                                 backgroundColor: '#fff',
                                 borderColor: '#ccc',
                                 borderWidth: 1,
                                 borderRadius: 8,
                                 padding: 12,
-                                textAlignVertical: 'top',                                
+                                textAlignVertical: 'top',
                             }}
                         />
                     </View>

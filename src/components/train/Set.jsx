@@ -29,6 +29,8 @@ const Set = ({ exerciseId, setId, setNo, weight, reps }) => {
                 <TouchableOpacity onPress={EditSet}><DataTable.Cell><Text style={styles.linkUnderline}>Set {setNo}</Text></DataTable.Cell></TouchableOpacity>
                 <DataTable.Cell numeric><TextInput
                     value={thisWeight}
+                    placeholder="weight"
+                    placeholderTextColor="#999"
                     keyboardType="numeric"         // shows numeric keyboard
                     returnKeyType="done"
                     onChangeText={(text) => {// Only allow digits
@@ -42,6 +44,8 @@ const Set = ({ exerciseId, setId, setNo, weight, reps }) => {
                 /></DataTable.Cell>
                 <DataTable.Cell style={{ justifyContent: 'flex-end' }}><TextInput
                     value={thisReps}
+                    placeholder="reps"
+                    placeholderTextColor="#999"
                     keyboardType="numeric"         // shows numeric keyboard
                     returnKeyType="done"
                     onChangeText={(text) => setThisReps(text)}

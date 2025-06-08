@@ -52,8 +52,8 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
     };
 
     const trainWorkout = () =>{
-        console.log("testing nav");
-        navigation.navigate('Train', { selectedWorkout: workoutId });
+        //console.log("testing nav");
+        navigation.navigate('Train', { selectedWorkout: workoutId, workoutName: workoutName, workoutDescription: workoutDescription });
     };
 
     // const addSet = () => {

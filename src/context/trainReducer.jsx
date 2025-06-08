@@ -23,7 +23,8 @@ export const initialState = {
     listAllExercises:[],
 
     //-New layout below-//
-    sessionName: 'Push Day 1',
+    sessionName: null,
+    sessionDescription: null,
 
     exercises:[],
 
