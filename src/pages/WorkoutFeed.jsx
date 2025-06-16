@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import avatarLocal from '../img/CallumEdwards.jpg';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useWorkoutFeedContext } from '../context/WorkoutFeedContext.jsx';
 
@@ -78,7 +77,7 @@ const WorkoutFeed = () => {
     });
   }, []);
 
-  // 🔽 Add this block just before the return
+  // Add this block just before the return
   if (state.loading) {
     return <Text style={{ textAlign: 'center', marginTop: 50 }}>Loading...</Text>;
   }

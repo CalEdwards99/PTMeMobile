@@ -11,12 +11,10 @@ export const WorkoutFeedProvider = ({ children }) => {
                 dispatch({ type: 'LOADING' });
                 try {
                     const workouts = await getWorkoutsSessionFeed();
+                    // Sort the workouts by completionDate (latest first)
+                    const sortedWorkouts = workouts.sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate));
 
-                    console.log("workouts");
-
-                    console.log(workouts);
-
-                    dispatch({type: 'GETWORKOUTS_SUCCESS', payload: workouts})
+                    dispatch({type: 'GETWORKOUTS_SUCCESS', payload: sortedWorkouts})
                 } catch (err) {
                     console.log("Get Workout Feed error");
                     console.log(err);

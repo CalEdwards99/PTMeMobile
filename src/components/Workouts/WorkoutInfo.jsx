@@ -52,17 +52,8 @@ const WorkoutInfo = ({ Key, WorkoutId, Name, Description }) => {
     };
 
     const trainWorkout = () =>{
-        //console.log("testing nav");
         navigation.navigate('Train', { selectedWorkout: workoutId, workoutName: workoutName, workoutDescription: workoutDescription });
     };
-
-    // const addSet = () => {
-    //     dispatch({ type: "TOGGLESET_MODAL", payload: { exerciseId: exerciseId, setNo: null, reps: null, weight: null } });
-    // }
-
-    // const handleEditExercise = () => {
-    //     dispatch({ type: "TOGGLE_MODAL", payload: { exerciseId: exerciseId, exerciseName: exerciseName } });
-    // };
 
     return (
         <>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Pressable, TextInput, Dimensions } from 'react-native'
 import { DataTable } from 'react-native-paper';
-import Collapsible from 'react-native-collapsible';
-import { VictoryPie } from 'victory-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from '../styles/style.jsx';
@@ -11,9 +9,6 @@ import { useTrainContext } from '../context/TrainContext.jsx';
 
 import Exercise from '../components/train/Exercise.jsx';
 import LikertScale from '../components/LikertScale.jsx';
-import MusclesWorkedChart from '../components/train/MusclesWorkedChart.jsx'
-
-import Modal from '../components/modals/SetModal.jsx';
 import ExerciseModal from '../components/modals/ExerciseModal.jsx';
 
 import { useRoute } from '@react-navigation/native';

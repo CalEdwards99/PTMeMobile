@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Pressable, Modal, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, ScrollView, Pressable, Modal, ActivityIndicator } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import Collapsible from 'react-native-collapsible';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import WorkoutInfo from '../components/Workouts/WorkoutInfo.jsx';
 import { useWorkoutContext } from '../context/WorkoutContext.jsx';
 
@@ -11,16 +9,12 @@ import styles from '../styles/style.jsx';
 const WorkoutScreen = () => {
 
     const { state, dispatch } = useWorkoutContext();
-    const [chevron, setChevron] = useState("chevron-down");
-    const [rowOpen, setRowOpen] = useState(false);
-    const [collapsed, setCollapsed] = useState(true);
 
     const [workoutName, setWorkoutName] = useState('');
     const [workoutDescription, setWorkoutDescription] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
     const { getUserWorkouts, addUserWorkout } = useWorkoutContext();
-    //const { loading, error, message } = state; //destructuring the state?
 
     async function handleSaveWorkout() {
         addUserWorkout(workoutName, workoutDescription);
@@ -31,19 +25,6 @@ const WorkoutScreen = () => {
     useEffect(() => {
         getUserWorkouts();
     }, []);
-
-    // Fixing the OpenRowHandler function
-    const OpenRowHandler = () => {
-        if (rowOpen) {
-            setChevron('chevron-down');
-            setRowOpen(false);
-            setCollapsed(true);
-        } else {
-            setChevron('chevron-up');
-            setRowOpen(true);
-            setCollapsed(false);
-        }
-    };
 
     const openModal = (muscle) => {
         setModalVisible(true);
