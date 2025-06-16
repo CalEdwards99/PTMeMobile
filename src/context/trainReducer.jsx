@@ -28,6 +28,8 @@ export const initialState = {
 
     exercises:[],
 
+    savedWorkout: null
+
 };
 
 export const trainReducer = (state, action) => {
@@ -186,6 +188,15 @@ export const trainReducer = (state, action) => {
                         : ex
                 )
         }
+
+        case 'SAVE_WORKOUT_SUCCESS':
+        return {
+            ...state,
+            savedWorkout: true,
+            // any other state you want to reset
+        };
+
+
 
         default:
             return state;

@@ -12,6 +12,7 @@ import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import styles from './src/styles/style.jsx';
 
+import { WorkoutFeedProvider } from './src/context/WorkoutFeedContext.jsx';
 import { WorkoutProvider } from './src/context/WorkoutContext.jsx';
 
 import { TrainProvider } from './src/context/TrainContext.jsx';
@@ -70,9 +71,18 @@ function MainContent() {
             ),
           }}
         >
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Home"
             component={WorkoutFeed}
+            options={{ tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} /> }}
+          /> */}
+          <Tab.Screen
+            name="Home"
+            component={() => (
+              <WorkoutFeedProvider>
+                <WorkoutFeed />
+              </WorkoutFeedProvider>
+            )}
             options={{ tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} /> }}
           />
           <Tab.Screen

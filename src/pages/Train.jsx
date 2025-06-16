@@ -80,6 +80,12 @@ export default function Train() {
 
     }, []);
 
+    useEffect(() => {
+        if (state.saved) {
+          navigation.navigate('WorkoutSummary', { workoutId: state.workoutId }); // or whatever screen
+        }
+      }, [state.saved]);
+
     const hasCompletedSets = state.exercises?.some(exercise =>
         exercise.sets?.some(set => set.weight != null && set.reps != null)
     );

@@ -58,10 +58,11 @@ export const TrainProvider = ({ children }) => {
             console.log(JSON.stringify(workoutSessionSave, null, 2));
 
             await addWorkoutSession(workoutSessionSave);
-            //dispatch({ type: 'GETEXERCISES_SUCCESS', payload: exercises })
+            
+            dispatch({ type: 'SAVEWORKOUT_SUCCESS', payload: exercises })
         } catch (err) {
             console.log(err);
-            //dispatch({type: 'GETWORKOUTS_FAILURE', payload: workouts})
+            dispatch({type: 'SAVEWORKOUT_FAILURE', payload: workouts})
         }
 
     }

@@ -30,3 +30,33 @@ export const addWorkoutSession = async (session) => {
     }
 
 };
+
+export const getWorkoutsSessionFeed = async () => {
+    try {
+
+        const token = await AsyncStorage.getItem('token');
+
+        const result = await fetch(`${API_BASE}/GetWorkoutFeed`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        const json = await result.json();
+
+        if (json.success && Array.isArray(json.data)) {
+            console.log("API Data:", json.data);
+            return json.data;
+        } else {
+            console.warn("API responded with success=false or no data:", json.message);
+            return [];
+        }
+
+
+    } catch (error) {
+        console.error("Error getting workout sessions:", error);
+        return [];
+    }
+
+};
