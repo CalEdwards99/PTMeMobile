@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const API_BASE = 'https://ptme-api.onrender.com/api/Workouts';
+//const API_BASE = 'http://localhost:5000/api/Workouts';
 
 export const getWorkouts = async () => {
     try {

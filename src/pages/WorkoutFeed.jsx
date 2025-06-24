@@ -41,19 +41,23 @@ const WorkoutFeed = () => {
         <Icon name={item.workoutRank} size={36} color={rankColors[item.workoutRank] || '#999'} />
       </View>
 
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.description}>{item.workoutName}: {item.description}</Text>
 
       {item.exercises && item.exercises.length > 0 && (
         <DataTable style={{ marginTop: 8 }}>
           <DataTable.Header>
             <DataTable.Title>Exercise</DataTable.Title>
+            <DataTable.Title>Sets</DataTable.Title>
             <DataTable.Title>Top Set</DataTable.Title>
+            <DataTable.Title>Max</DataTable.Title>
           </DataTable.Header>
 
           {item.exercises.map((exercise, index) => (
             <DataTable.Row key={index}>
-              <DataTable.Cell>{exercise.name}</DataTable.Cell>
+              <DataTable.Cell>{exercise.exerciseName}</DataTable.Cell>
+              <DataTable.Cell>{exercise.sets?.length ?? 0}</DataTable.Cell>
               <DataTable.Cell>{exercise.topSet}</DataTable.Cell>
+              <DataTable.Cell>{exercise.oneRepMax}</DataTable.Cell>
             </DataTable.Row>
           ))}
         </DataTable>

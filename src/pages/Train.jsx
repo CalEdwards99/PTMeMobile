@@ -36,6 +36,15 @@ export default function Train() {
         saveWorkoutSession();
     }
 
+    const TempWorkoutSummary = () => {
+        dispatch({ type: "VIEW_WORKOUT_SUMMARY" })
+    }
+
+    const TempFinishWorkoutSummary = () => {
+        dispatch({ type: "FINISH_WORKOUT_SUMMARY" })
+        navigation.navigate('Home');
+    }
+
     const updateWorkoutRating = (rating) => {
         dispatch({ type: "RATE_WORKOUT", payload: rating })
     }
@@ -77,9 +86,9 @@ export default function Train() {
 
     useEffect(() => {
         if (state.saved) {
-          navigation.navigate('WorkoutSummary', { workoutId: state.workoutId }); // or whatever screen
+            navigation.navigate('WorkoutSummary', { workoutId: state.workoutId }); // or whatever screen
         }
-      }, [state.saved]);
+    }, [state.saved]);
 
     const hasCompletedSets = state.exercises?.some(exercise =>
         exercise.sets?.some(set => set.weight != null && set.reps != null)
@@ -91,32 +100,23 @@ export default function Train() {
 
     return (
         <ScrollView style={{ flex: 1 }}>
-            {!state.finishWorkout ? (
+            {state.workoutSummary ? (
                 <>
+                    {/* Summary View */}
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
                         <View>
-                            <Text style={styles.name}>{sessionName}</Text>
+                            <Text style={styles.name}>{sessionName} : Workout Summary</Text>
                             <Text style={styles.timestamp}>{sessionDescription}</Text>
                         </View>
-                        <Pressable
-                            onPress={() => toggleModal()}
-                            style={{
-                                backgroundColor: '#66c2a5',
-                                paddingVertical: 6,
-                                paddingHorizontal: 12,
-                                borderRadius: 8
-                            }}
-                        >
-                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Add Exercise</Text>
-                        </Pressable>
                     </View>
+
                     {state.exercises && state.exercises.length > 0 && (
                         <>
                             <DataTable>
                                 <DataTable.Header>
                                     <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
-                                    <DataTable.Title numeric>Weight (KG)</DataTable.Title>
-                                    <DataTable.Title numeric>Reps</DataTable.Title>
+                                    <DataTable.Title numeric>Sets</DataTable.Title>
+                                    <DataTable.Title numeric>Volume</DataTable.Title>
                                 </DataTable.Header>
                             </DataTable>
 
@@ -129,89 +129,157 @@ export default function Train() {
                                 />
                             ))}
 
-                            {hasCompletedSets && (
+                            <DataTable>
+                                <DataTable.Header>
+                                    <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
+                                    <DataTable.Title numeric>Sets</DataTable.Title>
+                                    <DataTable.Title numeric>Volume</DataTable.Title>
+                                </DataTable.Header>
+                            </DataTable>
 
-                                <View style={{ flex: 1, padding: 16 }}>
-                                    <Pressable
-                                        onPress={() => finishWorkout()}
-                                        style={{
-                                            backgroundColor: '#3288bd',
-                                            paddingVertical: 6,
-                                            paddingHorizontal: 12,
-                                            borderRadius: 8
-                                        }}
-                                    >
-                                        <Text style={styles.buttonText}>
-                                            <Icon name="flag-checkered" size={15} />  Finish Session  <Icon name="flag-checkered" size={15} />
-                                        </Text>
-                                    </Pressable>
-                                </View>
-                            )}
+                            <View style={{ flex: 1, padding: 16 }}>
+                                <Pressable
+                                    onPress={TempFinishWorkoutSummary}
+                                    style={{
+                                        backgroundColor: '#3288bd',
+                                        paddingVertical: 6,
+                                        paddingHorizontal: 12,
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <Text style={styles.buttonText}> Done </Text>
+                                </Pressable>
+                            </View>
                         </>
                     )}
-
-                    <ExerciseModal />
                 </>
-
             ) : (
                 <>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
-                        <View>
-                            <Text style={styles.name}>Finish Workout</Text>
-                            <Text style={styles.timestamp}>Rate workout & View Summary</Text>
-                        </View>
-                        <Pressable
-                            onPress={() => finishWorkout()}
-                            style={{
-                                backgroundColor: '#3288bd',
-                                paddingVertical: 6,
-                                paddingHorizontal: 12,
-                                borderRadius: 8
-                            }}
-                        >
-                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Back</Text>
-                        </Pressable>
-                    </View>
-                    <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>{sessionName}</Text>
-                    <View style={{ padding: 16 }}>
-                        {/* <LikertScale onSelect={(value) => console.log('Selected:', value)} /> */}
-                        <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
-                    </View>
+                    {!state.finishWorkout ? (
+                        <>
+                            {/* Training view */}
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
+                                <View>
+                                    <Text style={styles.name}>{sessionName}</Text>
+                                    <Text style={styles.timestamp}>{sessionDescription}</Text>
+                                </View>
+                                <Pressable
+                                    onPress={toggleModal}
+                                    style={{
+                                        backgroundColor: '#66c2a5',
+                                        paddingVertical: 6,
+                                        paddingHorizontal: 12,
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Add Exercise</Text>
+                                </Pressable>
+                            </View>
 
-                    <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
-                        <Text style={[styles.name, { marginBottom: 8 }]}>Notes</Text>
-                        <TextInput
-                            placeholder="Write any notes about your workout..."
-                            multiline
-                            numberOfLines={4}
-                            onChangeText={val => updateSessionNotes(val)}
-                            style={{
-                                backgroundColor: '#fff',
-                                borderColor: '#ccc',
-                                borderWidth: 1,
-                                borderRadius: 8,
-                                padding: 12,
-                                textAlignVertical: 'top',
-                            }}
-                        />
-                    </View>
+                            {state.exercises && state.exercises.length > 0 && (
+                                <>
+                                    <DataTable>
+                                        <DataTable.Header>
+                                            <TouchableOpacity><DataTable.Title>Exercise</DataTable.Title></TouchableOpacity>
+                                            <DataTable.Title numeric>Weight (KG)</DataTable.Title>
+                                            <DataTable.Title numeric>Reps</DataTable.Title>
+                                        </DataTable.Header>
+                                    </DataTable>
 
-                    <View style={{ flex: 1, padding: 16 }}>
-                        <Pressable
-                            onPress={() => saveWorkoutSession()}
-                            style={{
-                                backgroundColor: '#3288bd',
-                                paddingVertical: 6,
-                                paddingHorizontal: 12,
-                                borderRadius: 8
-                            }}
-                        >
-                            <Text style={styles.buttonText}>Save & Finish </Text>
-                        </Pressable>
-                    </View>
+                                    {state.exercises.map((item) => (
+                                        <Exercise
+                                            key={item.uniqueId}
+                                            uniqueId={item.uniqueId}
+                                            exerciseId={item.exerciseId}
+                                            exerciseName={item.exerciseName}
+                                        />
+                                    ))}
+
+                                    {hasCompletedSets && (
+                                        <View style={{ flex: 1, padding: 16 }}>
+                                            <Pressable
+                                                onPress={finishWorkout}
+                                                style={{
+                                                    backgroundColor: '#3288bd',
+                                                    paddingVertical: 6,
+                                                    paddingHorizontal: 12,
+                                                    borderRadius: 8
+                                                }}
+                                            >
+                                                <Text style={styles.buttonText}>
+                                                    <Icon name="flag-checkered" size={15} /> Finish Session <Icon name="flag-checkered" size={15} />
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    )}
+                                </>
+                            )}
+                            <ExerciseModal />
+                        </>
+                    ) : (
+                        <>
+                            {/* Finish workout view */}
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
+                                <View>
+                                    <Text style={styles.name}>Finish Workout</Text>
+                                    <Text style={styles.timestamp}>Rate workout & View Summary</Text>
+                                </View>
+                                <Pressable
+                                    onPress={finishWorkout}
+                                    style={{
+                                        backgroundColor: '#3288bd',
+                                        paddingVertical: 6,
+                                        paddingHorizontal: 12,
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Back</Text>
+                                </Pressable>
+                            </View>
+
+                            <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>{sessionName}</Text>
+
+                            <View style={{ padding: 16 }}>
+                                <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
+                            </View>
+
+                            <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
+                                <Text style={[styles.name, { marginBottom: 8 }]}>Notes</Text>
+                                <TextInput
+                                    placeholder="Write any notes about your workout..."
+                                    multiline
+                                    numberOfLines={4}
+                                    onChangeText={updateSessionNotes}
+                                    style={{
+                                        backgroundColor: '#fff',
+                                        borderColor: '#ccc',
+                                        borderWidth: 1,
+                                        borderRadius: 8,
+                                        padding: 12,
+                                        textAlignVertical: 'top',
+                                    }}
+                                />
+                            </View>
+
+                            <View style={{ flex: 1, padding: 16 }}>
+                                <Pressable
+                                    //onPress={saveWorkout}
+                                    onPress={TempWorkoutSummary}
+                                    style={{
+                                        backgroundColor: '#3288bd',
+                                        paddingVertical: 6,
+                                        paddingHorizontal: 12,
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <Text style={styles.buttonText}>Save & Finish</Text>
+                                </Pressable>
+                            </View>
+                        </>
+                    )}
                 </>
-            )
-            }
-        </ScrollView >
-    )
+            )}
+        </ScrollView>
+    );
+
 };

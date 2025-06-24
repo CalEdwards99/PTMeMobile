@@ -59,7 +59,8 @@ export const TrainProvider = ({ children }) => {
 
             await addWorkoutSession(workoutSessionSave);
             
-            dispatch({ type: 'SAVEWORKOUT_SUCCESS', payload: exercises })
+            //dispatch({ type: 'SAVEWORKOUT_SUCCESS', payload: exercises })
+            dispatch({ type: "VIEW_WORKOUT_SUMMARY" })
         } catch (err) {
             console.log(err);
             dispatch({type: 'SAVEWORKOUT_FAILURE', payload: workouts})

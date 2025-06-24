@@ -28,7 +28,9 @@ export const initialState = {
 
     exercises:[],
 
-    savedWorkout: null
+    savedWorkout: null,
+    
+    workoutSummary:false
 
 };
 
@@ -196,8 +198,25 @@ export const trainReducer = (state, action) => {
             // any other state you want to reset
         };
 
+        case "VIEW_WORKOUT_SUMMARY":
+            return {
+                ...state,
+                workoutSummary: !state.workoutSummary
+            }
 
-
+        case "FINISH_WORKOUT_SUMMARY":
+            return {
+                ...state,
+                    workoutSummary: !state.workoutSummary,
+                    workoutId: null,
+                    workoutRatingId: 0,
+                    workoutSessionName: '',
+                    sessionNotes: '',
+                    sessionName: null,
+                    sessionDescription: null,
+                    exercises:[],
+            }
+        
         default:
             return state;
     }

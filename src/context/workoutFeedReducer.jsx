@@ -30,10 +30,11 @@ export const workoutFeedReducer = (state, action) => {
                     avatar: avatarLocal,
                 },
                 timestamp: new Date(session.completionDate).toLocaleDateString(),
+                workoutName: session.workoutSessionName,
                 workoutRank: sessionRatingMap[session.sessionRatingId] || 'meh',
                 description: session.sessionNotes,
                 image: null,
-                exercises: [] // populate later when available
+                exercises: session.sessionExercises
             }));
 
             return {
