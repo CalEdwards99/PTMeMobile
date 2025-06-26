@@ -54,7 +54,7 @@ export default function Train() {
     }
 
     const updateSessionName = (sessionName) => {
-        dispatch({ type: "SESSION_NAMES", payload: sessionName })
+        dispatch({ type: "SESSION_NAME", payload: sessionName })
     }
 
     function OpenRowHandler() {
@@ -77,6 +77,9 @@ export default function Train() {
         if (workoutId) {
 
             getTrainWorkout(workoutId);
+        }
+        else{
+            updateSessionName("Freestyle")
         }
 
         console.log("getting exercise list");
@@ -235,12 +238,27 @@ export default function Train() {
                                 >
                                     <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>Back</Text>
                                 </Pressable>
+                            </View>                                               
+
+                            <View style={{ paddingHorizontal: 16, paddingVertical: 6 }}>
+                                <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
                             </View>
 
-                            <Text style={[styles.textCenter, { fontSize: 18, marginTop: 7 }]}>{sessionName}</Text>
-
-                            <View style={{ padding: 16 }}>
-                                <LikertScale onSelect={(value) => updateWorkoutRating(value)} />
+                            <View style={{ paddingHorizontal: 16 }}>
+                            <Text style={[styles.name, { marginBottom: 8 }]}>Workout Title</Text>
+                            <TextInput
+                                    placeholder="Name this workout..."
+                                    onChangeText={updateSessionName}
+                                    value={state.workoutSessionName}
+                                    style={{
+                                        backgroundColor: '#fff',
+                                        borderColor: '#ccc',
+                                        borderWidth: 1,
+                                        borderRadius: 8,
+                                        padding: 12,
+                                        textAlignVertical: 'top',
+                                    }}
+                                />
                             </View>
 
                             <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
@@ -263,8 +281,8 @@ export default function Train() {
 
                             <View style={{ flex: 1, padding: 16 }}>
                                 <Pressable
-                                    //onPress={saveWorkout}
-                                    onPress={TempWorkoutSummary}
+                                    onPress={saveWorkout}
+                                    //onPress={TempWorkoutSummary}
                                     style={{
                                         backgroundColor: '#3288bd',
                                         paddingVertical: 6,

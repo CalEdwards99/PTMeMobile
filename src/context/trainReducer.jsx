@@ -20,17 +20,17 @@ export const initialState = {
     workoutSessionName: '',
     sessionNotes: '',
 
-    listAllExercises:[],
+    listAllExercises: [],
 
     //-New layout below-//
-    sessionName: null,
+    //sessionName: null,
     sessionDescription: null,
 
-    exercises:[],
+    exercises: [],
 
     savedWorkout: null,
-    
-    workoutSummary:false
+
+    workoutSummary: false
 
 };
 
@@ -47,9 +47,9 @@ export const trainReducer = (state, action) => {
                 id,
                 title: exerciseName,
                 muscleGroup
-              }));
+            }));
 
-            return {...state, listAllExercises: updatedExercises}
+            return { ...state, listAllExercises: updatedExercises }
 
         // new reducer for managing state's complex object
         case 'SAVE_EXERCISE':
@@ -58,12 +58,12 @@ export const trainReducer = (state, action) => {
                 exercises: state.selectedExerciseId !== null ?
                     state.exercises.map((exercise) =>
                         exercise.uniqueId === action.payload.uniqueId ?
-                            { ...exercise, exerciseId: action.payload.exerciseId , exerciseName: action.payload.exerciseName } : exercise
+                            { ...exercise, exerciseId: action.payload.exerciseId, exerciseName: action.payload.exerciseName } : exercise
                     )
                     : (
                         [...state.exercises, { uniqueId: Date.now(), exerciseId: action.payload.exerciseId, exerciseName: action.payload.exerciseName, sets: [] }]),
-            selectedExerciseId: null,
-            selectedUniqueId: null
+                selectedExerciseId: null,
+                selectedUniqueId: null
             }
 
         case "REMOVE_EXERCISE":
@@ -132,14 +132,14 @@ export const trainReducer = (state, action) => {
                 selectedSetWeight: action.payload?.weight || '',
             };
 
-            case 'TOGGLEDELETESET_MODAL':
-                return {
-                    ...state,
-                    isDeleteSetModalVisible: !state.isDeleteSetModalVisible,
-                    selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
-                    selectedSetId: action.payload?.setId !== undefined ? action.payload.setId : null,
-                    selectedSetName: action.payload?.setNo !== undefined ? action.payload.setNo : null,
-                };
+        case 'TOGGLEDELETESET_MODAL':
+            return {
+                ...state,
+                isDeleteSetModalVisible: !state.isDeleteSetModalVisible,
+                selectedExerciseId: action.payload?.exerciseId !== undefined ? action.payload.exerciseId : null,
+                selectedSetId: action.payload?.setId !== undefined ? action.payload.setId : null,
+                selectedSetName: action.payload?.setNo !== undefined ? action.payload.setNo : null,
+            };
 
         case 'TOGGLE_FINISH_WORKOUT':
             return {
@@ -165,9 +165,9 @@ export const trainReducer = (state, action) => {
                 workoutSessionName: action.payload
             }
 
-        case 'ADD_SET': 
-        return {
-            ...state,
+        case 'ADD_SET':
+            return {
+                ...state,
                 exercises: state.exercises.map(ex =>
                     ex.uniqueId === action.payload.uniqueId
                         ? {
@@ -189,14 +189,14 @@ export const trainReducer = (state, action) => {
                         }
                         : ex
                 )
-        }
+            }
 
         case 'SAVE_WORKOUT_SUCCESS':
-        return {
-            ...state,
-            savedWorkout: true,
-            // any other state you want to reset
-        };
+            return {
+                ...state,
+                savedWorkout: true,
+                // any other state you want to reset
+            };
 
         case "VIEW_WORKOUT_SUMMARY":
             return {
@@ -207,16 +207,16 @@ export const trainReducer = (state, action) => {
         case "FINISH_WORKOUT_SUMMARY":
             return {
                 ...state,
-                    workoutSummary: !state.workoutSummary,
-                    workoutId: null,
-                    workoutRatingId: 0,
-                    workoutSessionName: '',
-                    sessionNotes: '',
-                    sessionName: null,
-                    sessionDescription: null,
-                    exercises:[],
+                workoutSummary: !state.workoutSummary,
+                workoutId: null,
+                workoutRatingId: 0,
+                workoutSessionName: state.workoutSessionName,
+                sessionNotes: '',
+                //sessionName: null,
+                sessionDescription: null,
+                exercises: [],
             }
-        
+
         default:
             return state;
     }

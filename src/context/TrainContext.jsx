@@ -41,8 +41,7 @@ export const TrainProvider = ({ children }) => {
                 //workoutId: state.workoutId,
                 workoutId: state.workoutId,
                 sessionRatingId: state.workoutRatingId,
-                //workoutSessionName: state.workoutSessionName,
-                workoutSessionName: "Push Day 1",
+                workoutSessionName: state.workoutSessionName,
                 sessionNotes: state.sessionNotes,
                 sessionExercises: state.exercises.map((exercise, index) => ({
                   exerciseId: parseInt(exercise.exerciseId),
